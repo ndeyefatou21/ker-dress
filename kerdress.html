@@ -845,7 +845,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <div style="margin-bottom:14px;">
       <label style="display:block;font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(232,217,202,.4);margin-bottom:8px;">Photos (jusqu'a 5)</label>
       <div class="img-previews" id="modalImgPreviews"></div>
-      <div class="img-upload-zone" onclick="document.getElementById('modalImgInput').click()">
+      <div class="img-upload-zone" onclick="document.getElementById('modalImgInput').click();document.getElementById('modalImgInput').value='';">
         <input type="file" id="modalImgInput" accept="image/*" multiple onchange="handleModalImgs(this)"/>
         <div class="upload-icon">&#128247;</div>
         <div style="font-size:13px;font-weight:500;color:rgba(232,217,192,.6);">Cliquer pour ajouter des photos</div>
@@ -1079,7 +1079,7 @@ function submitCmd(){
   const payL={livraison:'Paiement a la livraison',wave:'Wave',om:'Orange Money'};
   txt+=`\n\nPaiement : ${payL[selectedPayment]}`;
   if(m)txt+=`\n\nNote : ${m}`;
-  txt+='\n\nMerci !';
+  txt+='\n\nMerci ! Si vous avez une photo de reference, merci de l\'envoyer directement sur ce WhatsApp apres ce message.';
   document.getElementById('cmdOk').style.display='block';
   cart=[];saveCart();updateBadge();renderCartDrawer();updateFormCart();
   setTimeout(()=>window.open('https://wa.me/221781339360?text='+encodeURIComponent(txt),'_blank'),700);
@@ -1111,7 +1111,7 @@ function submitMonModele(){
   if(h)mesStr+=`Hanches: ${h}cm  `;
   if(ha)mesStr+=`Hauteur: ${ha}cm`;
   if(mesStr)txt+=`\n\nMesures : ${mesStr.trim()}`;
-  txt+='\n\nMerci !';
+  txt+='\n\nMerci ! Si vous avez une photo de reference, merci de l\'envoyer directement sur ce WhatsApp apres ce message.';
   document.getElementById('mmOk').style.display='block';
   window.open('https://wa.me/221781339360?text='+encodeURIComponent(txt),'_blank');
 }
@@ -1264,7 +1264,31 @@ let modalImgData=[];
 function openAddProdModal(){modalImgData=[];document.getElementById('mpEditId').value='';document.getElementById('modalProdTitle').textContent='Ajouter un produit';document.getElementById('mpName').value='';document.getElementById('mpPrice').value='';document.getElementById('mpDesc').value='';document.getElementById('mpEmoji').value='';document.getElementById('mpBadge').value='';document.getElementById('mpCat').value='robe';document.getElementById('mpStock').value='dispo';document.getElementById('modalImgPreviews').innerHTML='';document.getElementById('modalImgInput').value='';document.getElementById('addProdModal').classList.add('open');}
 function openEditProd(id){const p=getProds().find(x=>x.id===id);if(!p)return;modalImgData=p.images?[...p.images]:[];document.getElementById('mpEditId').value=id;document.getElementById('modalProdTitle').textContent='Modifier le produit';document.getElementById('mpName').value=p.name;document.getElementById('mpPrice').value=p.price;document.getElementById('mpDesc').value=p.desc;document.getElementById('mpEmoji').value=p.emoji||'';document.getElementById('mpBadge').value=p.badge||'';document.getElementById('mpCat').value=p.cat;document.getElementById('mpStock').value=p.stock||'dispo';renderModalPreviews();document.getElementById('addProdModal').classList.add('open');}
 function closeAddProdModal(){document.getElementById('addProdModal').classList.remove('open');modalImgData=[];}
-function handleModalImgs(input){const files=Array.from(input.files).slice(0,5-modalImgData.length);files.forEach(file=>{if(modalImgData.length>=5)return;const reader=new FileReader();reader.onload=e=>{modalImgData.push(e.target.result);renderModalPreviews();};reader.readAsDataURL(file);});input.value='';}
+function handleModalImgs(input){
+  const files=Array.from(input.files).slice(0,5-modalImgData.length);
+  if(files.length===0)return;
+  files.forEach(file=>{
+    if(modalImgData.length>=5)return;
+    const reader=new FileReader();
+    reader.onload=e=>{
+      modalImgData.push(e.target.result);
+      renderModalPreviews();
+    };
+    reader.readAsDataURL(file);
+  });
+}
+  const files=Array.from(input.files).slice(0,5-modalImgData.length);
+  if(files.length===0)return;
+  files.forEach(file=>{
+    if(modalImgData.length>=5)return;
+    const reader=new FileReader();
+    reader.onload=e=>{
+      modalImgData.push(e.target.result);
+      renderModalPreviews();
+    };
+    reader.readAsDataURL(file);
+  });
+}const files=Array.from(input.files).slice(0,5-modalImgData.length);files.forEach(file=>{if(modalImgData.length>=5)return;const reader=new FileReader();reader.onload=e=>{modalImgData.push(e.target.result);renderModalPreviews();};reader.readAsDataURL(file);});input.value='';}
 function renderModalPreviews(){document.getElementById('modalImgPreviews').innerHTML=modalImgData.map((src,i)=>`<div class="img-preview-item"><img src="${src}" alt="photo ${i+1}"/><button class="img-preview-del" onclick="modalImgData.splice(${i},1);renderModalPreviews()">x</button></div>`).join('');}
 function saveProd(){
   const name=document.getElementById('mpName').value.trim(),price=Number(document.getElementById('mpPrice').value),cat=document.getElementById('mpCat').value;
