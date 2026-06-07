@@ -739,8 +739,10 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <div class="lightbox-price" id="lbPrice"></div>
     <div class="lightbox-desc" id="lbDesc"></div>
     <div class="lb-color-wrap">
-      <div class="lb-color-label">Couleur souhaitee</div>
-      <input type="text" class="lb-color-input" id="lbColorInput" placeholder="Ex: Beige, Bordeaux, Bleu nuit, Vert emeraude..."/>
+      <div class="lb-color-label">Modele choisi</div>
+      <input type="text" class="lb-color-input" id="lbModelInput" placeholder="Ex: Photo 1, Photo 2, le modele avec broderies..."/>
+      <div class="lb-color-label" style="margin-top:10px;">Couleur souhaitee</div>
+      <input type="text" class="lb-color-input" id="lbColorInput" placeholder="Ex: Beige, Bordeaux, Bleu nuit..."/>
     </div>
     <button class="lightbox-add" onclick="addFromLightbox()">Ajouter au panier</button>
   </div>
@@ -1056,7 +1058,8 @@ function closeLightbox(){document.getElementById('lightboxOverlay').classList.re
 function closeLbOutside(e){if(e.target===document.getElementById('lightboxOverlay'))closeLightbox();}
 function addFromLightbox(){
   const color=document.getElementById('lbColorInput').value.trim();
-  addToCart(lbProdId,color);
+  const model=document.getElementById('lbModelInput').value.trim();
+  addToCart(lbProdId,color,model);
   closeLightbox();
 }
 
@@ -1067,14 +1070,15 @@ function cartTotal(){return cart.reduce((s,i)=>s+i.price*i.qty,0);}
 function cartCount(){return cart.reduce((s,i)=>s+i.qty,0);}
 function updateBadge(){const n=cartCount(),b=document.getElementById('cartBadge');b.textContent=n;b.classList.toggle('show',n>0);}
 
-function addToCart(id,color){
+function addToCart(id,color,model){
   const p=getProds().find(x=>x.id===id);if(!p)return;
   const colorLabel=color||'Non specifie';
+  const modelLabel=model||'Non specifie';
   // Chaque combinaison produit+couleur = article distinct
   const key=id+'_'+colorLabel;
   const ex=cart.find(i=>i.key===key);
   if(ex)ex.qty++;
-  else cart.push({key,id,name:p.name,price:p.price,emoji:p.emoji,img:null,color:colorLabel,qty:1});
+  else cart.push({key,id,name:p.name,price:p.price,emoji:p.emoji,img:null,color:colorLabel,model:modelLabel,qty:1});
   saveCart();updateBadge();renderCartDrawer();updateFormCart();
   const btn=document.getElementById('addbtn-'+id);
   if(btn){btn.textContent='Ajoute !';btn.classList.add('added');setTimeout(()=>{btn.textContent='+ Panier';btn.classList.remove('added');},1800);}
