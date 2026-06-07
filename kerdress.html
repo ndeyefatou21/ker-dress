@@ -1008,7 +1008,7 @@ function addToCart(id,color){
   const key=id+'_'+colorLabel;
   const ex=cart.find(i=>i.key===key);
   if(ex)ex.qty++;
-  else cart.push({key,id,name:p.name,price:p.price,emoji:p.emoji,img:(p.images&&p.images.length>0)?p.images[0]:null,color:colorLabel,qty:1});
+  else cart.push({key,id,name:p.name,price:p.price,emoji:p.emoji,img:null,color:colorLabel,qty:1});
   saveCart();updateBadge();renderCartDrawer();updateFormCart();
   const btn=document.getElementById('addbtn-'+id);
   if(btn){btn.textContent='Ajoute !';btn.classList.add('added');setTimeout(()=>{btn.textContent='+ Panier';btn.classList.remove('added');},1800);}
