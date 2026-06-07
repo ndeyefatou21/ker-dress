@@ -907,10 +907,76 @@ const DEFAULT_PRODUCTS=[
   {id:1011,name:'Pantalon Large Wax',cat:'pantalon',price:16000,emoji:'',desc:'Pantalon palazzo en wax africain. Taille haute, coupe large.',images:[],badge:'',visible:true,stock:'dispo'},
   {id:1012,name:'Pantalon Tailleur',cat:'pantalon',price:20000,emoji:'',desc:'Pantalon droit coupe tailleur. Tissu texture premium.',images:[],badge:'new',visible:true,stock:'dispo'}
 ];
-function getProds(){const s=localStorage.getItem('kd_products');return s?JSON.parse(s):JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));}
-function saveProds(arr){localStorage.setItem('kd_products',JSON.stringify(arr));}
-function getOrders(){return JSON.parse(localStorage.getItem('kd_orders')||'[]');}
-function saveOrders(arr){localStorage.setItem('kd_orders',JSON.stringify(arr));}
+// SUPABASE CONFIG
+const SUPABASE_URL = 'https://vremffkfdzyvttjfegjk.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_rLnCoib4CFl0YCWRiYWsYQ_8rMS49K_';
+
+async function sbQuery(table, method, body, filters) {
+  filters = filters || '';
+  const url = SUPABASE_URL + '/rest/v1/' + table + filters;
+  const opts = {
+    method: method || 'GET',
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': method === 'POST' ? 'return=representation' : 'return=minimal'
+    }
+  };
+  if (body) opts.body = JSON.stringify(body);
+  try {
+    const res = await fetch(url, opts);
+    if (!res.ok) return null;
+    if (method === 'DELETE' || method === 'PATCH') return true;
+    return res.json();
+  } catch(e) { return null; }
+}
+
+let _prodsCache = null;
+let _ordersCache = null;
+
+async function getProds() {
+  if (_prodsCache) return _prodsCache;
+  const data = await sbQuery('produits', 'GET', null, '?order=id');
+  if (data && data.length > 0) {
+    _prodsCache = data.map(p => ({...p, desc: p.description}));
+    return _prodsCache;
+  }
+  _prodsCache = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
+  for (const p of _prodsCache) {
+    await sbQuery('produits', 'POST', {
+      id: p.id, name: p.name, cat: p.cat, price: p.price,
+      description: p.desc || '', emoji: p.emoji || '',
+      badge: p.badge || '', images: p.images || [],
+      visible: true, stock: p.stock || 'dispo'
+    });
+  }
+  return _prodsCache;
+}
+
+async function saveProds(arr) {
+  _prodsCache = arr;
+  for (const p of arr) {
+    await sbQuery('produits', 'POST', {
+      id: p.id, name: p.name, cat: p.cat, price: p.price,
+      description: p.desc || p.description || '',
+      emoji: p.emoji || '', badge: p.badge || '',
+      images: p.images || [], visible: p.visible !== false,
+      stock: p.stock || 'dispo'
+    });
+  }
+}
+
+async function getOrders() {
+  if (_ordersCache) return _ordersCache;
+  const data = await sbQuery('commandes', 'GET', null, '?order=created_at.desc');
+  _ordersCache = data || [];
+  return _ordersCache;
+}
+
+async function saveOrders(arr) {
+  _ordersCache = arr;
+}const s=localStorage.getItem('kd_products');return s?JSON.parse(s):JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));}
 function fmt(n){return Number(n).toLocaleString('fr-SN')+' FCFA';}
 function genId(){return Date.now()+Math.floor(Math.random()*1000);}
 function catLabel(c){const m={voile:'Voile & Cagoule',kimono:'Kimono',haut:'Hauts',robe:'Robes',ensemble:'Ensembles',pantalon:'Pantalons'};return m[c]||c;}
@@ -926,8 +992,8 @@ document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
 function toggleMenu(){const l=document.querySelector('.nav-links');const show=l.style.display!=='flex';l.style.cssText=show?'display:flex;flex-direction:column;position:fixed;top:60px;left:0;right:0;background:rgba(247,240,230,.98);backdrop-filter:blur(20px);padding:18px 24px;gap:14px;border-bottom:1px solid rgba(123,74,45,.1);z-index:400;':'';}
 
 // PRODUITS
-function renderProducts(){
-  const prods=getProds().filter(p=>p.visible!==false);
+async function renderProducts(){
+  const prods=(await getProds()).filter(p=>p.visible!==false);
   const grid=document.getElementById('productsGrid');
   grid.innerHTML=prods.map(p=>{
     const isRupture=p.stock==='rupture';
@@ -1061,13 +1127,13 @@ function getMesures(){
 function formatMesures(m){if(!m||!Object.keys(m).length)return'--';const labels={poitrine:'Poitrine',taille:'Taille',hanches:'Hanches',longueur:'Longueur',hauteur:'Hauteur',manche:'Manche',epaule:'Epaule',buste:'Buste'};return Object.entries(m).map(([k,v])=>`${labels[k]||k}: ${v}cm`).join(' - ');}
 
 // COMMANDE
-function submitCmd(){
+async function submitCmd(){
   const n=document.getElementById('cNom').value.trim(),t=document.getElementById('cTel').value.trim(),ta=document.getElementById('cTaille').value,a=document.getElementById('cAdresse').value.trim(),m=document.getElementById('cMsg').value.trim();
   if(!n||!t||!ta||!a){alert('Merci de remplir tous les champs obligatoires *');return;}
   if(!cart.length&&!confirm('Ton panier est vide. Continuer quand meme ?'))return;
   const mesures=getMesures();
   const order={id:genId(),date:new Date().toLocaleDateString('fr-SN'),nom:n,tel:t,taille:ta,adresse:a,message:m,mesures,payment:selectedPayment,items:cart.length?[...cart]:[{name:'Commande generale',price:0,qty:1,color:'Non specifie'}],total:cartTotal(),status:'pending'};
-  const orders=getOrders();orders.unshift(order);saveOrders(orders);
+  const orders=await getOrders();orders.unshift(order);_ordersCache=orders;await sbQuery('commandes','POST',{id:order.id,date:order.date,nom:order.nom,tel:order.tel,taille:order.taille||'',adresse:order.adresse||'',message:order.message||'',mesures:order.mesures||{},payment:order.payment||'',items:order.items||[],total:order.total||0,status:'pending'});
   let txt=`Bonjour Ker Dress !\n\nNouvelle commande\nNom : ${n}\nTel : ${t}\nTaille : ${ta}\nAdresse : ${a}`;
   if(cart.length){
     txt+='\n\nArticles commandes :\n';
@@ -1134,25 +1200,25 @@ function submitAvis(){
 // ADMIN
 const DEFAULT_PWD='kerdress2025';
 function getAdminPwd(){return localStorage.getItem('kd_pwd')||DEFAULT_PWD;}
-function checkLogin(){
+async function checkLogin(){
   if(document.getElementById('adminPwd').value===getAdminPwd()){
-    document.getElementById('adminLogin').style.display='none';document.getElementById('adminDash').style.display='block';updateStats();renderOrders();renderAdminProds();
+    document.getElementById('adminLogin').style.display='none';document.getElementById('adminDash').style.display='block';await updateStats();await renderOrders();await renderAdminProds();
   }else{document.getElementById('adminError').style.display='block';setTimeout(()=>document.getElementById('adminError').style.display='none',2000);}
 }
 function openAdmin(){document.getElementById('adminPanel').classList.add('open');document.body.style.overflow='hidden';}
 function closeAdmin(){document.getElementById('adminPanel').classList.remove('open');document.body.style.overflow='';document.getElementById('adminPwd').value='';}
 function changePwd(){const v=document.getElementById('newPwd').value.trim();if(!v)return;localStorage.setItem('kd_pwd',v);document.getElementById('pwdMsg').style.display='block';document.getElementById('newPwd').value='';setTimeout(()=>document.getElementById('pwdMsg').style.display='none',2000);}
-function switchTab(name,btn){
+async function switchTab(name,btn){
   document.querySelectorAll('.atab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
   if(btn)btn.classList.add('active');
   document.getElementById('tab-'+name).classList.add('active');
-  if(name==='stats')updateStats();if(name==='orders')renderOrders();if(name==='products')renderAdminProds();
+  if(name==='stats')updateStats();if(name==='orders'){_ordersCache=null;renderOrders();}if(name==='products'){_prodsCache=null;renderAdminProds();}
   if(name==='settings'){document.getElementById('s-store-orders').textContent=getOrders().length;document.getElementById('s-store-prods').textContent=getProds().length;}
 }
 
-function updateStats(){
-  const orders=getOrders(),prods=getProds();
+async function updateStats(){
+  const orders=await getOrders(),prods=await getProds();
   const revenue=orders.reduce((s,o)=>s+(o.total||0),0);
   const pending=orders.filter(o=>o.status==='pending').length;
   document.getElementById('s-orders').textContent=orders.length;
@@ -1172,8 +1238,8 @@ function updateStats(){
 }
 
 let orderFilter='all',orderSearch='',currentOrderId=null;
-function renderOrders(){
-  let orders=getOrders();
+async function renderOrders(){
+  let orders=await getOrders();
   if(orderFilter!=='all')orders=orders.filter(o=>o.status===orderFilter);
   if(orderSearch)orders=orders.filter(o=>(o.nom+o.tel+o.adresse+'').toLowerCase().includes(orderSearch.toLowerCase()));
   const sLabels={pending:'<span class="status-badge status-pending">En attente</span>',progress:'<span class="status-badge status-progress">En cours</span>',done:'<span class="status-badge status-done">Livre</span>',cancelled:'<span class="status-badge status-cancelled">Annule</span>'};
@@ -1192,10 +1258,10 @@ function renderOrders(){
 }
 function filterOrders(v){orderFilter=v;renderOrders();}
 function searchOrders(v){orderSearch=v;renderOrders();}
-function delOrder(id){if(!confirm('Supprimer cette commande ?'))return;saveOrders(getOrders().filter(o=>o.id!==id));renderOrders();updateStats();}
+async function delOrder(id){if(!confirm('Supprimer cette commande ?'))return;await sbQuery('commandes','DELETE',null,'?id=eq.'+id);_ordersCache=null;renderOrders();updateStats();}
 
-function openCmdModal(id){
-  const o=getOrders().find(x=>x.id===id);if(!o)return;
+async function openCmdModal(id){
+  const orders2=await getOrders();const o=orders2.find(x=>x.id===id);if(!o)return;
   currentOrderId=id;
   document.getElementById('cmdModalTitle').textContent='Commande de '+o.nom;
   const payL={livraison:'Paiement a la livraison',wave:'Wave',om:'Orange Money'};
@@ -1213,7 +1279,7 @@ function openCmdModal(id){
   document.getElementById('cmdModalStatus').value=o.status||'pending';
   document.getElementById('cmdModal').classList.add('open');
 }
-function saveOrderStatus(){const status=document.getElementById('cmdModalStatus').value;const orders=getOrders();const o=orders.find(x=>x.id===currentOrderId);if(o)o.status=status;saveOrders(orders);document.getElementById('cmdModal').classList.remove('open');renderOrders();updateStats();}
+async function saveOrderStatus(){const status=document.getElementById('cmdModalStatus').value;await sbQuery('commandes','PATCH',{status},'?id=eq.'+currentOrderId);_ordersCache=null;document.getElementById('cmdModal').classList.remove('open');renderOrders();updateStats();}
 function contactClient(){
   const o=getOrders().find(x=>x.id===currentOrderId);if(!o)return;
   const txt=`Bonjour ${o.nom} ! Votre commande Ker Dress est bien recue et en cours de traitement. On revient vers vous tres bientot. Merci !`;
@@ -1221,8 +1287,8 @@ function contactClient(){
 }
 
 // ADMIN PRODUITS
-function renderAdminProds(){
-  const prods=getProds();
+async function renderAdminProds(){
+  const prods=await getProds();
   document.getElementById('adminProdsGrid').innerHTML=prods.map(p=>{
     const imgSrc=p.images&&p.images.length>0?p.images[0]:null;
     const imgHtml=imgSrc?`<img src="${imgSrc}" alt="${p.name}"/>`:`<div class="admin-prod-img-emoji" style="font-size:48px;">${p.emoji}</div>`;
@@ -1251,14 +1317,14 @@ function renderAdminProds(){
   }).join('');
 }
 
-function toggleRupture(id,el){
+async function toggleRupture(id,el){
   const prods=getProds();const p=prods.find(x=>x.id===id);if(!p)return;
   p.stock=p.stock==='rupture'?'dispo':'rupture';
-  saveProds(prods);renderProducts();renderAdminProds();
+  _prodsCache=prods;await sbQuery('produits','PATCH',{stock:p.stock},'?id=eq.'+id);renderProducts();renderAdminProds();
 }
 
-function quickSaveProd(id,field,val){const prods=getProds();const p=prods.find(x=>x.id===id);if(!p)return;p[field]=val;saveProds(prods);renderProducts();}
-function deleteProd(id){if(!confirm('Supprimer ce produit ?'))return;saveProds(getProds().filter(p=>p.id!==id));renderAdminProds();renderProducts();}
+async function quickSaveProd(id,field,val){const prods=getProds();const p=prods.find(x=>x.id===id);if(!p)return;p[field]=val;_prodsCache=prods;const dbField=field==='desc'?'description':field;await sbQuery('produits','PATCH',{[dbField]:val},'?id=eq.'+id);renderProducts();}
+async function deleteProd(id){if(!confirm('Supprimer ce produit ?'))return;await sbQuery('produits','DELETE',null,'?id=eq.'+id);_prodsCache=null;renderAdminProds();renderProducts();}
 
 let modalImgData=[];
 function openAddProdModal(){modalImgData=[];document.getElementById('mpEditId').value='';document.getElementById('modalProdTitle').textContent='Ajouter un produit';document.getElementById('mpName').value='';document.getElementById('mpPrice').value='';document.getElementById('mpDesc').value='';document.getElementById('mpEmoji').value='';document.getElementById('mpBadge').value='';document.getElementById('mpCat').value='robe';document.getElementById('mpStock').value='dispo';document.getElementById('modalImgPreviews').innerHTML='';document.getElementById('modalImgInput').value='';document.getElementById('addProdModal').classList.add('open');}
@@ -1290,14 +1356,14 @@ function handleModalImgs(input){
   });
 }const files=Array.from(input.files).slice(0,5-modalImgData.length);files.forEach(file=>{if(modalImgData.length>=5)return;const reader=new FileReader();reader.onload=e=>{modalImgData.push(e.target.result);renderModalPreviews();};reader.readAsDataURL(file);});input.value='';}
 function renderModalPreviews(){document.getElementById('modalImgPreviews').innerHTML=modalImgData.map((src,i)=>`<div class="img-preview-item"><img src="${src}" alt="photo ${i+1}"/><button class="img-preview-del" onclick="modalImgData.splice(${i},1);renderModalPreviews()">x</button></div>`).join('');}
-function saveProd(){
+async function saveProd(){
   const name=document.getElementById('mpName').value.trim(),price=Number(document.getElementById('mpPrice').value),cat=document.getElementById('mpCat').value;
   if(!name||!price||!cat){alert('Nom, prix et categorie sont obligatoires.');return;}
   const prods=getProds();const editId=document.getElementById('mpEditId').value;
   const stock=document.getElementById('mpStock').value;
   if(editId){const p=prods.find(x=>x.id===Number(editId));if(p){p.name=name;p.price=price;p.cat=cat;p.desc=document.getElementById('mpDesc').value;p.emoji=document.getElementById('mpEmoji').value||'';p.badge=document.getElementById('mpBadge').value;p.images=[...modalImgData];p.stock=stock;}}
   else{prods.push({id:genId(),name,price,cat,desc:document.getElementById('mpDesc').value,emoji:document.getElementById('mpEmoji').value||'',badge:document.getElementById('mpBadge').value,images:[...modalImgData],visible:true,stock});}
-  saveProds(prods);renderAdminProds();renderProducts();closeAddProdModal();
+  _prodsCache=prods;const pToSave=editId?prods.find(x=>x.id===Number(editId)):prods[prods.length-1];await sbQuery('produits','POST',{id:pToSave.id,name:pToSave.name,cat:pToSave.cat,price:pToSave.price,description:pToSave.desc||'',emoji:pToSave.emoji||'',badge:pToSave.badge||'',images:pToSave.images||[],visible:true,stock:pToSave.stock||'dispo'});renderAdminProds();renderProducts();closeAddProdModal();
 }
 
 function exportCSV(){
@@ -1308,7 +1374,7 @@ function exportCSV(){
   const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='kerdress_commandes.csv';a.click();URL.revokeObjectURL(url);
 }
 
-renderProducts();updateBadge();renderCartDrawer();updateFormCart();
+(async()=>{await renderProducts();updateBadge();renderCartDrawer();updateFormCart();})();
 </script>
 </body>
 </html>
