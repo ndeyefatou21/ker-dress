@@ -1334,18 +1334,28 @@ let modalImgData=[];
 function openAddProdModal(){modalImgData=[];document.getElementById('mpEditId').value='';document.getElementById('modalProdTitle').textContent='Ajouter un produit';document.getElementById('mpName').value='';document.getElementById('mpPrice').value='';document.getElementById('mpDesc').value='';document.getElementById('mpEmoji').value='';document.getElementById('mpBadge').value='';document.getElementById('mpCat').value='robe';document.getElementById('mpStock').value='dispo';document.getElementById('modalImgPreviews').innerHTML='';document.getElementById('modalImgInput').value='';document.getElementById('addProdModal').classList.add('open');}
 function openEditProd(id){const p=getProds().find(x=>x.id===id);if(!p)return;modalImgData=p.images?[...p.images]:[];document.getElementById('mpEditId').value=id;document.getElementById('modalProdTitle').textContent='Modifier le produit';document.getElementById('mpName').value=p.name;document.getElementById('mpPrice').value=p.price;document.getElementById('mpDesc').value=p.desc;document.getElementById('mpEmoji').value=p.emoji||'';document.getElementById('mpBadge').value=p.badge||'';document.getElementById('mpCat').value=p.cat;document.getElementById('mpStock').value=p.stock||'dispo';renderModalPreviews();document.getElementById('addProdModal').classList.add('open');}
 function closeAddProdModal(){document.getElementById('addProdModal').classList.remove('open');modalImgData=[];}
-function handleModalImgs(input){
+async function handleModalImgs(input){
   const files=Array.from(input.files).slice(0,5-modalImgData.length);
   if(files.length===0)return;
-  files.forEach(file=>{
+  for(const file of files){
     if(modalImgData.length>=5)return;
-    const reader=new FileReader();
-    reader.onload=e=>{
-      modalImgData.push(e.target.result);
+    const fileName=Date.now()+'_'+file.name.replace(/\s/g,'_');
+    const res=await fetch(SUPABASE_URL+'/storage/v1/object/images/'+fileName,{
+      method:'POST',
+      headers:{
+        'apikey':SUPABASE_KEY,
+        'Authorization':'Bearer '+SUPABASE_KEY,
+        'Content-Type':file.type
+      },
+      body:file
+    });
+    if(res.ok){
+      const url=SUPABASE_URL+'/storage/v1/object/public/images/'+fileName;
+      modalImgData.push(url);
       renderModalPreviews();
-    };
-    reader.readAsDataURL(file);
-  });
+    }
+  }
+  input.value='';
 }
   const files=Array.from(input.files).slice(0,5-modalImgData.length);
   if(files.length===0)return;
