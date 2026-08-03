@@ -1554,7 +1554,14 @@ async function checkLogin(){
     if(!email||!pwd){err.textContent='Entre ton email et ton mot de passe';err.style.display='block';return;}
     err.style.display='none';
     try{const {error}=await sb.auth.signInWithPassword({email,password:pwd});if(error)throw error;await onAdminAuthed();}
-    catch(e){err.textContent='Email ou mot de passe incorrect';err.style.display='block';setTimeout(()=>err.style.display='none',2500);}
+    catch(e){
+      var msg=(e&&e.message)?e.message:'Erreur de connexion';var low=msg.toLowerCase();
+      if(low.indexOf('not confirm')!==-1||low.indexOf('confirm')!==-1){err.textContent='Email non confirme : dans Supabase, Authentication > Users, confirme l\'utilisateur (ou recree-le en cochant Auto Confirm).';}
+      else if(low.indexOf('invalid')!==-1||low.indexOf('credential')!==-1){err.textContent='Email ou mot de passe incorrect.';}
+      else{err.textContent=msg;}
+      console.warn('login error:',e);
+      err.style.display='block';setTimeout(()=>{err.style.display='none';},7000);
+    }
     return;
   }
   if(document.getElementById('adminPwd').value===getAdminPwd()){showAdminDash();}
