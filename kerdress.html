@@ -267,6 +267,13 @@ section{padding:88px 52px;}
 .pay-opt-icon{font-size:20px;margin-bottom:5px;}
 .pay-opt-name{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--brown2);}
 .pay-opt-sub{font-size:9px;color:var(--gray);margin-top:1px;}
+.pay-opt-logo{height:30px;display:flex;align-items:center;justify-content:center;margin-bottom:6px;}
+.pay-opt-logo img{max-height:30px;max-width:74px;object-fit:contain;display:block;}
+.pay-opt-logo svg{color:var(--brown3);}
+.pay-fallback{display:none;align-items:center;justify-content:center;height:24px;padding:0 11px;border-radius:5px;font-size:11px;font-weight:800;letter-spacing:.2px;color:#fff;font-family:'Outfit',sans-serif;}
+.pay-fallback-wave{background:#1BB6E8;}
+.pay-fallback-om{background:#FF7900;}
+.cs-social svg{flex-shrink:0;}
 .fsubmit{width:100%;background:var(--brown2);color:var(--white);border:none;padding:15px;font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .3s;margin-top:5px;}
 .fsubmit:hover{background:var(--brown);}
 .success-msg{display:none;background:rgba(123,74,45,.08);border-left:3px solid var(--gold);color:var(--brown);padding:11px 15px;font-size:13px;font-weight:500;margin-top:10px;}
@@ -449,18 +456,210 @@ tr:hover td{background:rgba(255,255,255,.02);}
   .products-grid,.avis-grid{grid-template-columns:1fr;}
   .admin-prods-grid{grid-template-columns:1fr;}
 }
+
+/* ═══════════════════════════════════════════════
+   KËR DRESS · PREMIUM LAYER v2
+   ═══════════════════════════════════════════════ */
+
+/* Page loader — brand reveal ritual */
+.kd-loader{position:fixed;inset:0;z-index:9000;background:var(--brown2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .7s ease,visibility .7s ease;}
+.kd-loader.done{opacity:0;visibility:hidden;pointer-events:none;}
+.kd-loader-brand{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,7vw,64px);font-weight:700;letter-spacing:10px;color:var(--beige);position:relative;overflow:hidden;}
+.kd-loader-brand span{display:inline-block;opacity:0;transform:translateY(18px);animation:kdLetter .6s cubic-bezier(.2,.7,.3,1) forwards;}
+.kd-loader-line{width:0;height:1px;background:var(--gold);animation:kdLine 1.1s ease .5s forwards;}
+.kd-loader-tag{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:rgba(232,217,192,.45);opacity:0;animation:kdFade .8s ease 1s forwards;}
+@keyframes kdLetter{to{opacity:1;transform:translateY(0);}}
+@keyframes kdLine{to{width:180px;}}
+@keyframes kdFade{to{opacity:1;}}
+
+/* Scroll progress bar */
+.kd-progress{position:fixed;top:0;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--brown3),var(--gold));z-index:600;transition:width .1s linear;}
+
+/* Ken Burns drift on hero slides */
+.slide.active{animation:kdKen 9s ease-out forwards;}
+@keyframes kdKen{from{transform:scale(1.06);}to{transform:scale(1);}}
+
+/* Nav: wishlist button */
+.nav-fav-btn{position:relative;background:none;border:none;cursor:pointer;color:var(--white);font-size:17px;padding:6px;transition:color .3s;line-height:1;}
+nav.scrolled .nav-fav-btn{color:var(--brown2);}
+.nav-fav-btn:hover{color:var(--gold)!important;}
+.fav-badge{position:absolute;top:-2px;right:-2px;background:var(--gold);color:var(--brown2);font-size:9px;font-weight:700;width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;}
+.fav-badge.show{opacity:1;}
+
+/* Search + sort toolbar */
+.kd-toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:20px;}
+.kd-search-wrap{position:relative;flex:1;min-width:200px;}
+.kd-search{width:100%;background:var(--white);border:1px solid var(--beige);color:var(--text);padding:11px 14px 11px 38px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:300;outline:none;transition:border .3s;}
+.kd-search:focus{border-color:var(--gold);}
+.kd-search-ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--brown3);font-size:14px;pointer-events:none;}
+.kd-sort{background:var(--white);border:1px solid var(--beige);color:var(--text);padding:11px 32px 11px 14px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:400;outline:none;cursor:pointer;transition:border .3s;appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--brown3) 50%),linear-gradient(135deg,var(--brown3) 50%,transparent 50%);background-position:calc(100% - 16px) 52%,calc(100% - 11px) 52%;background-size:5px 5px,5px 5px;background-repeat:no-repeat;}
+.kd-sort:focus{border-color:var(--gold);}
+.fbtn.fav-filter{display:inline-flex;align-items:center;gap:6px;}
+.fbtn.fav-filter.on{background:var(--gold);border-color:var(--gold);color:var(--brown2);}
+.kd-empty{grid-column:1/-1;text-align:center;padding:56px 20px;color:var(--gray);}
+.kd-empty-ico{font-size:42px;margin-bottom:10px;opacity:.5;}
+
+/* Product card additions */
+.pc-fav{position:absolute;top:12px;right:12px;z-index:7;width:34px;height:34px;border-radius:50%;border:none;background:rgba(253,250,245,.9);backdrop-filter:blur(6px);color:var(--brown3);font-size:16px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s;box-shadow:0 2px 10px rgba(78,42,20,.12);}
+.pc-fav:hover{transform:scale(1.12);color:#c0392b;}
+.pc-fav.on{color:#c0392b;background:var(--white);}
+.pc.rupture .pc-fav{top:12px;right:auto;left:12px;}
+.pc-chip{display:inline-block;font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--brown3);background:var(--cream);border:1px solid var(--beige);padding:3px 8px;margin-top:8px;}
+.pc-reviews{font-size:10px;color:var(--gray);margin-top:2px;}
+
+/* Recently viewed */
+.kd-recent{margin-top:42px;padding-top:30px;border-top:1px solid var(--beige);display:none;}
+.kd-recent.show{display:block;}
+.kd-recent-head{font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--brown3);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.kd-recent-head::before{content:'';width:20px;height:1px;background:var(--brown3);}
+.kd-recent-row{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;}
+.kd-recent-card{flex:0 0 120px;cursor:pointer;transition:transform .3s;}
+.kd-recent-card:hover{transform:translateY(-4px);}
+.kd-recent-thumb{width:120px;height:150px;background:var(--beige);display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:6px;}
+.kd-recent-thumb img{width:100%;height:100%;object-fit:cover;}
+.kd-recent-thumb .em{font-size:40px;}
+.kd-recent-name{font-size:11px;color:var(--brown2);font-weight:500;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.kd-recent-price{font-size:11px;color:var(--brown3);font-family:'Cormorant Garamond',serif;font-weight:600;}
+
+/* Trust bar */
+.kd-trust{background:var(--white);padding:0!important;border-top:1px solid var(--beige);border-bottom:1px solid var(--beige);}
+.kd-trust-grid{display:grid;grid-template-columns:repeat(4,1fr);}
+.kd-trust-item{padding:30px 24px;text-align:center;border-right:1px solid var(--beige);}
+.kd-trust-item:last-child{border-right:none;}
+.kd-trust-ico{font-size:26px;margin-bottom:10px;}
+.kd-trust-title{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--brown2);margin-bottom:4px;}
+.kd-trust-sub{font-size:11px;font-weight:300;color:var(--gray);line-height:1.5;}
+
+/* Newsletter strip */
+.kd-news{background:var(--brown);padding:44px 52px;text-align:center;}
+.kd-news-title{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,3vw,38px);font-weight:300;color:var(--beige);margin-bottom:8px;}
+.kd-news-title em{font-style:italic;color:var(--gold);}
+.kd-news-sub{font-size:13px;font-weight:300;color:rgba(232,217,192,.6);margin-bottom:22px;}
+.kd-news-form{display:flex;gap:10px;max-width:440px;margin:0 auto;flex-wrap:wrap;justify-content:center;}
+.kd-news-input{flex:1;min-width:200px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:var(--beige);padding:13px 16px;font-family:'Outfit',sans-serif;font-size:13px;outline:none;transition:border .3s;}
+.kd-news-input:focus{border-color:var(--gold);}
+.kd-news-input::placeholder{color:rgba(232,217,192,.4);}
+
+/* Floating actions */
+.kd-wa-float{position:fixed;right:20px;bottom:20px;z-index:700;width:56px;height:56px;border-radius:50%;background:var(--green);color:#fff;border:none;font-size:26px;cursor:pointer;box-shadow:0 6px 24px rgba(37,211,102,.4);display:flex;align-items:center;justify-content:center;transition:transform .3s;animation:kdPulse 2.4s ease-in-out infinite;}
+.kd-wa-float:hover{transform:scale(1.08);}
+@keyframes kdPulse{0%,100%{box-shadow:0 6px 24px rgba(37,211,102,.4);}50%{box-shadow:0 6px 30px rgba(37,211,102,.7);}}
+.kd-totop{position:fixed;right:22px;bottom:86px;z-index:700;width:44px;height:44px;border-radius:50%;background:var(--brown2);color:var(--gold);border:1px solid var(--gold);font-size:16px;cursor:pointer;opacity:0;visibility:hidden;transform:translateY(10px);transition:all .35s;display:flex;align-items:center;justify-content:center;}
+.kd-totop.show{opacity:1;visibility:visible;transform:translateY(0);}
+.kd-totop:hover{background:var(--gold);color:var(--brown2);}
+
+/* Toasts */
+.kd-toast-wrap{position:fixed;top:82px;right:20px;z-index:8000;display:flex;flex-direction:column;gap:10px;pointer-events:none;}
+.kd-toast{background:var(--white);border-left:3px solid var(--gold);box-shadow:0 8px 32px rgba(78,42,20,.18);padding:13px 18px;min-width:230px;max-width:320px;display:flex;align-items:center;gap:11px;opacity:0;transform:translateX(40px);transition:all .4s cubic-bezier(.2,.7,.3,1);pointer-events:auto;}
+.kd-toast.show{opacity:1;transform:translateX(0);}
+.kd-toast-ico{font-size:18px;flex-shrink:0;}
+.kd-toast-txt{font-size:13px;color:var(--text);line-height:1.4;}
+.kd-toast-txt b{color:var(--brown2);font-weight:600;}
+
+/* Promo popup */
+.kd-popup-overlay{position:fixed;inset:0;background:rgba(20,10,5,.6);z-index:8500;display:none;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .4s;}
+.kd-popup-overlay.open{display:flex;opacity:1;}
+.kd-popup{background:var(--white);max-width:420px;width:100%;position:relative;overflow:hidden;transform:translateY(20px) scale(.97);transition:transform .45s cubic-bezier(.2,.7,.3,1);}
+.kd-popup-overlay.open .kd-popup{transform:translateY(0) scale(1);}
+.kd-popup-top{background:var(--brown2);padding:28px 30px 22px;text-align:center;position:relative;}
+.kd-popup-eyebrow{font-size:10px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.kd-popup-title{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;color:var(--beige);line-height:1.15;}
+.kd-popup-title em{font-style:italic;color:var(--gold);}
+.kd-popup-body{padding:26px 30px 30px;text-align:center;}
+.kd-popup-body p{font-size:13px;font-weight:300;color:var(--gray);line-height:1.7;margin-bottom:18px;}
+.kd-popup-form{display:flex;flex-direction:column;gap:10px;}
+.kd-popup-input{background:var(--cream);border:1px solid var(--beige);color:var(--text);padding:12px 15px;font-family:'Outfit',sans-serif;font-size:13px;outline:none;transition:border .3s;}
+.kd-popup-input:focus{border-color:var(--gold);}
+.kd-popup-close{position:absolute;top:12px;right:14px;background:none;border:none;color:rgba(232,217,192,.55);font-size:22px;cursor:pointer;z-index:2;line-height:1;}
+.kd-popup-close:hover{color:var(--gold);}
+.kd-popup-skip{background:none;border:none;color:var(--gray);font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;margin-top:4px;transition:color .3s;}
+.kd-popup-skip:hover{color:var(--brown2);}
+
+@media(max-width:900px){
+  .kd-trust-grid{grid-template-columns:1fr 1fr;}
+  .kd-trust-item:nth-child(2){border-right:none;}
+  .kd-trust-item{border-bottom:1px solid var(--beige);}
+  .kd-news{padding:36px 16px;}
+  .kd-toast-wrap{left:16px;right:16px;}
+  .kd-toast{max-width:none;min-width:0;}
+}
+@media(max-width:600px){
+  .kd-trust-grid{grid-template-columns:1fr;}
+  .kd-trust-item{border-right:none;}
+}
+
+/* Nav fit (extra links) */
+nav{padding:0 34px;}
+.nav-links{gap:19px;}
+.nav-links a{font-size:10px;letter-spacing:1.6px;}
+
+/* FAQ */
+.faq{background:var(--white);}
+.faq-list{max-width:760px;margin:36px auto 0;}
+.faq-item{border-bottom:1px solid var(--beige);}
+.faq-item summary{list-style:none;cursor:pointer;padding:20px 46px 20px 4px;position:relative;font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--brown2);transition:color .25s;}
+.faq-item summary::-webkit-details-marker{display:none;}
+.faq-item summary::after{content:'+';position:absolute;right:8px;top:50%;transform:translateY(-50%);font-family:'Outfit',sans-serif;font-size:22px;font-weight:300;color:var(--brown3);transition:transform .3s;}
+.faq-item[open] summary::after{content:'\2212';color:var(--gold);}
+.faq-item summary:hover{color:var(--brown);}
+.faq-a{padding:0 46px 22px 4px;font-size:14px;font-weight:300;color:var(--gray);line-height:1.8;}
+.faq-a a{color:var(--brown3);font-weight:500;text-decoration:underline;text-underline-offset:2px;cursor:pointer;}
+.faq-item[open] .faq-a{animation:faqIn .35s ease;}
+@keyframes faqIn{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+
+/* Tontine */
+.tontine{background:var(--cream);}
+.tontine-plans{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:34px 0 8px;}
+.tplan{background:var(--white);border:1px solid var(--beige);padding:24px 18px;text-align:center;transition:all .35s;position:relative;}
+.tplan:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(78,42,20,.12);border-color:var(--brown4);}
+.tplan.featured{border-color:var(--gold);}
+.tplan-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--brown2);font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 11px;white-space:nowrap;}
+.tplan-name{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--brown3);margin-bottom:10px;}
+.tplan-amount{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:var(--brown2);line-height:1;}
+.tplan-amount small{font-size:12px;font-family:'Outfit',sans-serif;color:var(--gray);font-weight:400;}
+.tplan-desc{font-size:11px;font-weight:300;color:var(--gray);line-height:1.6;margin-top:12px;}
+.tontine-example{font-size:11px;color:var(--gray);font-style:italic;margin:0 0 38px;}
+.tontine-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
+.tontine-steps{list-style:none;margin:6px 0 0;}
+.tontine-step{display:flex;gap:16px;padding:14px 0;border-bottom:1px solid var(--beige);}
+.tontine-step-num{width:28px;height:28px;background:var(--brown2);color:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
+.tontine-step-text{font-size:13px;font-weight:300;color:var(--text);line-height:1.6;}
+.tontine-step-text strong{color:var(--brown2);font-weight:600;}
+.tontine-form{background:var(--white);border:1px solid rgba(123,74,45,.1);padding:32px;box-shadow:0 4px 24px rgba(78,42,20,.06);}
+.tontine-form h3{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--brown2);margin-bottom:4px;}
+@media(max-width:900px){
+  .tontine-grid{grid-template-columns:1fr;gap:30px;}
+  .tontine-plans{grid-template-columns:1fr;}
+}
+
+/* Accessibility: honour reduced-motion */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important;}
+  .kd-loader{display:none!important;}
+  .slide.active{animation:none!important;}
+}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
 </style>
 </head>
 <body>
+<div class="kd-loader" id="kdLoader">
+  <div class="kd-loader-brand" id="kdLoaderBrand"></div>
+  <div class="kd-loader-line"></div>
+  <div class="kd-loader-tag">Mode feminine · Dakar</div>
+</div>
+<div class="kd-progress" id="kdProgress"></div>
 <nav id="navbar">
   <div class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">KËR DRESS</div>
   <ul class="nav-links">
     <li><a href="#categories">Collections</a></li>
     <li><a href="#produits">Boutique</a></li>
     <li><a href="#monmodele">Mon Modele</a></li>
+    <li><a href="#tontine">Tontine</a></li>
     <li><a href="#about">A propos</a></li>
     <li><a href="#avis">Avis</a></li>
+    <li><a href="#faq">FAQ</a></li>
     <li><a href="#commande" class="nav-cta">Commander</a></li>
+    <li><button class="nav-fav-btn" onclick="showFavorites()" title="Mes favoris">&#9825;<span class="fav-badge" id="favBadge">0</span></button></li>
     <li><button class="nav-cart-btn" onclick="openCart()">&#128722;<span class="cart-badge" id="cartBadge">0</span></button></li>
     <li><button onclick="openAdmin()" style="background:none;border:1px solid rgba(255,255,255,.3);color:var(--white);padding:6px 13px;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='rgba(255,255,255,.3)';this.style.color='var(--white)'">Admin</button></li>
   </ul>
@@ -526,6 +725,19 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <h2 class="section-title">Nos <em>pieces</em></h2>
     <p class="section-sub">Clique sur une photo pour voir la galerie, choisis ta couleur et ajoute au panier.</p>
   </div>
+  <div class="kd-toolbar fade-in">
+    <div class="kd-search-wrap">
+      <span class="kd-search-ico">&#128269;</span>
+      <input type="text" class="kd-search" id="kdSearch" placeholder="Rechercher une piece, un tissu..." oninput="setSearch(this.value)"/>
+    </div>
+    <select class="kd-sort" id="kdSort" onchange="setSort(this.value)">
+      <option value="default">Tri : par defaut</option>
+      <option value="new">Nouveautes d'abord</option>
+      <option value="price-asc">Prix croissant</option>
+      <option value="price-desc">Prix decroissant</option>
+      <option value="name">Nom (A-Z)</option>
+    </select>
+  </div>
   <div class="filter-wrap fade-in">
     <button class="fbtn active" onclick="filterProducts('tous',this)">Tout voir</button>
     <button class="fbtn" onclick="filterProducts('voile',this)">Voile &amp; Cagoule</button>
@@ -534,8 +746,38 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <button class="fbtn" onclick="filterProducts('robe',this)">Robes</button>
     <button class="fbtn" onclick="filterProducts('ensemble',this)">Ensembles</button>
     <button class="fbtn" onclick="filterProducts('pantalon',this)">Pantalons</button>
+    <button class="fbtn fav-filter" id="favFilterBtn" onclick="toggleFavFilter(this)">&#9825; Favoris</button>
   </div>
   <div class="products-grid fade-in" id="productsGrid"></div>
+  <div class="kd-recent" id="kdRecent">
+    <div class="kd-recent-head">Vues recemment</div>
+    <div class="kd-recent-row" id="kdRecentRow"></div>
+  </div>
+</section>
+
+<section class="kd-trust">
+  <div class="kd-trust-grid">
+    <div class="kd-trust-item">
+      <div class="kd-trust-ico">&#9986;&#65039;</div>
+      <div class="kd-trust-title">Fait sur mesure</div>
+      <div class="kd-trust-sub">Chaque piece confectionnee a ta taille</div>
+    </div>
+    <div class="kd-trust-item">
+      <div class="kd-trust-ico">&#128666;</div>
+      <div class="kd-trust-title">Livraison Dakar</div>
+      <div class="kd-trust-sub">Delai 3 a 7 jours partout a Dakar</div>
+    </div>
+    <div class="kd-trust-item">
+      <div class="kd-trust-ico">&#128176;</div>
+      <div class="kd-trust-title">Paiement flexible</div>
+      <div class="kd-trust-sub">A la livraison, Wave ou Orange Money</div>
+    </div>
+    <div class="kd-trust-item">
+      <div class="kd-trust-ico">&#128172;</div>
+      <div class="kd-trust-title">Support 7j/7</div>
+      <div class="kd-trust-sub">Une conseillere sur WhatsApp a ton ecoute</div>
+    </div>
+  </div>
 </section>
 
 <!-- ═══ MON MODELE ═══ -->
@@ -548,8 +790,8 @@ tr:hover td{background:rgba(255,255,255,.02);}
   <div class="mm-grid fade-in">
     <div class="mm-form">
       <div class="mm-form-title">Decris ton modele ideal</div>
-      <div class="mm-upload-zone">
-        <input type="file" id="mmImgInput" accept="image/*" onchange="handleMMImg(this)" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;"/>
+      <div class="mm-upload-zone" onclick="document.getElementById('mmImgInput').click()">
+        <input type="file" id="mmImgInput" accept="image/*" onchange="handleMMImg(this)"/>
         <div class="mm-upload-icon">&#128247;</div>
         <div style="font-size:13px;font-weight:500;color:rgba(232,217,192,.6);">Ajouter une photo de reference</div>
         <p>JPG, PNG - Photo de ton modele, d'une robe que tu aimes...</p>
@@ -600,6 +842,59 @@ tr:hover td{background:rgba(255,255,255,.02);}
   </div>
 </section>
 
+<!-- ═══ TONTINE ═══ (modifie librement les formules et montants ci-dessous) -->
+<section class="tontine" id="tontine">
+  <div class="fade-in">
+    <div class="eyebrow">Epargne mode</div>
+    <h2 class="section-title">La <em>tontine</em> Ker Dress</h2>
+    <p class="section-sub">Habille-toi sans te ruiner : tu cotises a ton rythme, tu recois tes tenues. On organise la tontine en toute confiance, entre nous.</p>
+  </div>
+  <div class="tontine-plans fade-in">
+    <div class="tplan">
+      <div class="tplan-name">Decouverte</div>
+      <div class="tplan-amount">5 000 <small>F / mois</small></div>
+      <div class="tplan-desc">Pour commencer en douceur et se faire une premiere tenue.</div>
+    </div>
+    <div class="tplan featured">
+      <div class="tplan-badge">Le plus choisi</div>
+      <div class="tplan-name">Elegance</div>
+      <div class="tplan-amount">10 000 <small>F / mois</small></div>
+      <div class="tplan-desc">L'equilibre parfait : plusieurs pieces sur l'annee.</div>
+    </div>
+    <div class="tplan">
+      <div class="tplan-name">Prestige</div>
+      <div class="tplan-amount">20 000 <small>F / mois</small></div>
+      <div class="tplan-desc">Pour une garde-robe complete et les grandes occasions.</div>
+    </div>
+  </div>
+  <p class="tontine-example fade-in">Montants donnes a titre d'exemple — on fixe ensemble la formule qui te convient.</p>
+  <div class="tontine-grid">
+    <div class="fade-in">
+      <ol class="tontine-steps">
+        <li class="tontine-step"><div class="tontine-step-num">1</div><div class="tontine-step-text"><strong>Choisis ta formule</strong> et ton rythme — mensuel ou hebdomadaire.</div></li>
+        <li class="tontine-step"><div class="tontine-step-num">2</div><div class="tontine-step-text"><strong>Tu cotises simplement</strong> par Wave ou Orange Money, quand ca t'arrange.</div></li>
+        <li class="tontine-step"><div class="tontine-step-num">3</div><div class="tontine-step-text"><strong>Tu recois tes tenues</strong> Ker Dress a l'echeance, ou ton avoir a depenser en boutique.</div></li>
+        <li class="tontine-step"><div class="tontine-step-num">4</div><div class="tontine-step-text"><strong>On reste en contact</strong> sur WhatsApp a chaque etape, en toute transparence.</div></li>
+      </ol>
+    </div>
+    <div class="tontine-form fade-in">
+      <h3>Rejoindre la tontine</h3>
+      <p class="cform-sub">Laisse tes infos, on te rappelle pour tout t'expliquer.</p>
+      <div class="fg"><label class="fl">Ton prenom *</label><input type="text" class="fi" id="tName" placeholder="Ex: Awa, Mariama..."/></div>
+      <div class="fg"><label class="fl">Ton WhatsApp *</label><input type="text" class="fi" id="tTel" placeholder="Ex: 78 133 93 60"/></div>
+      <div class="fg"><label class="fl">Formule souhaitee</label>
+        <select class="fsel" id="tPlan"><option value="Decouverte">Decouverte — 5 000 F / mois</option><option value="Elegance" selected>Elegance — 10 000 F / mois</option><option value="Prestige">Prestige — 20 000 F / mois</option><option value="Autre">Autre / a discuter</option></select>
+      </div>
+      <div class="fg"><label class="fl">Rythme</label>
+        <select class="fsel" id="tRythme"><option value="Mensuel">Mensuel</option><option value="Hebdomadaire">Hebdomadaire</option></select>
+      </div>
+      <div class="fg"><label class="fl">Un message (optionnel)</label><textarea class="fta" id="tMsg" placeholder="Une question, une preference..."></textarea></div>
+      <button class="fsubmit" onclick="submitTontine()">Je veux participer</button>
+      <div class="success-msg" id="tOk">Demande envoyee ! On te contacte sur WhatsApp tres vite.</div>
+    </div>
+  </div>
+</section>
+
 <section class="about" id="about">
   <div class="about-grid">
     <div class="about-visual fade-in">
@@ -643,6 +938,23 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <div class="success-msg" id="avisOk" style="text-align:center;margin-top:12px;">Merci pour ton avis !</div>
   </div>
 </section>
+<section class="faq" id="faq">
+  <div class="fade-in">
+    <div class="eyebrow">Aide</div>
+    <h2 class="section-title">Questions <em>frequentes</em></h2>
+    <p class="section-sub">Tout ce que nos clientes demandent le plus souvent. Une autre question ? Ecris-nous sur WhatsApp.</p>
+  </div>
+  <div class="faq-list fade-in">
+    <details class="faq-item"><summary>Comment passer une commande ?</summary><div class="faq-a">Deux facons : choisis une piece, ajoute-la au panier avec ta couleur, puis remplis le formulaire de commande — ou clique sur <a onclick="openWA()">Commander sur WhatsApp</a> et on s'occupe de tout avec toi.</div></details>
+    <details class="faq-item"><summary>Quels sont les delais de confection ?</summary><div class="faq-a">Chaque piece est faite sur commande, specialement pour toi. Compte en general 3 a 7 jours de confection, puis la livraison. Pour une date precise (mariage, ceremonie), previens-nous a l'avance.</div></details>
+    <details class="faq-item"><summary>Comment marche le sur-mesure ?</summary><div class="faq-a">Tu decris ou envoies une photo du modele voulu dans la section <a href="#monmodele">Mon Modele</a>, tu donnes tes mesures, et on confectionne la piece a ta taille. On te confirme le prix avant de commencer.</div></details>
+    <details class="faq-item"><summary>Quels moyens de paiement acceptez-vous ?</summary><div class="faq-a">Paiement a la livraison, Wave, ou Orange Money — au choix. Tu selectionnes ton mode de paiement au moment de la commande.</div></details>
+    <details class="faq-item"><summary>Livrez-vous ? Ou et a quel prix ?</summary><div class="faq-a">Oui, on livre partout a Dakar apres la confection. Les frais dependent de ton quartier — on te les communique sur WhatsApp au moment de confirmer ta commande.</div></details>
+    <details class="faq-item"><summary>Comment prendre mes mesures ?</summary><div class="faq-a">Avec un metre souple, mesure ta poitrine, ta taille et tes hanches, en gardant le metre bien a plat. En cas de doute, on te guide etape par etape sur WhatsApp — pas d'inquietude.</div></details>
+    <details class="faq-item"><summary>Puis-je faire modifier ma piece ?</summary><div class="faq-a">Comme tout est fait sur commande, on tient a ce que tu sois satisfaite. Si un ajustement est necessaire (ourlet, taille), contacte-nous : on trouve toujours une solution ensemble.</div></details>
+    <details class="faq-item"><summary>C'est quoi la tontine Ker Dress ?</summary><div class="faq-a">Une facon de t'habiller en cotisant a ton rythme : tu epargnes un petit montant chaque semaine ou chaque mois, et tu recois tes tenues a l'echeance. Tout est explique dans la section <a href="#tontine">Tontine</a>.</div></details>
+  </div>
+</section>
 <section class="commande" id="commande">
   <div class="fade-in">
     <div class="eyebrow">Commander</div>
@@ -684,9 +996,9 @@ tr:hover td{background:rgba(255,255,255,.02);}
       <div class="fg">
         <label class="fl">Mode de paiement *</label>
         <div class="payment-methods">
-          <div class="pay-opt selected" id="pay-livraison" onclick="selectPayment('livraison')"><div class="pay-opt-icon">&#128181;</div><div class="pay-opt-name">Livraison</div><div class="pay-opt-sub">A la reception</div></div>
-          <div class="pay-opt" id="pay-wave" onclick="selectPayment('wave')"><div class="pay-opt-icon">&#128241;</div><div class="pay-opt-name">Wave</div><div class="pay-opt-sub">+221 78 133 93 60</div></div>
-          <div class="pay-opt" id="pay-om" onclick="selectPayment('om')"><div class="pay-opt-icon">&#128992;</div><div class="pay-opt-name">Orange Money</div><div class="pay-opt-sub">+221 78 133 93 60</div></div>
+          <div class="pay-opt selected" id="pay-livraison" onclick="selectPayment('livraison')"><div class="pay-opt-logo"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3.5h13v10H1z"/><path d="M14 6.5h4l3 3v4h-7z"/><circle cx="5.5" cy="16.5" r="1.9"/><circle cx="17.5" cy="16.5" r="1.9"/></svg></div><div class="pay-opt-name">Livraison</div><div class="pay-opt-sub">A la reception</div></div>
+          <div class="pay-opt" id="pay-wave" onclick="selectPayment('wave')"><div class="pay-opt-logo"><img src="wave-logo.png" alt="Wave" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/><span class="pay-fallback pay-fallback-wave">Wave</span></div><div class="pay-opt-name">Wave</div><div class="pay-opt-sub">+221 78 133 93 60</div></div>
+          <div class="pay-opt" id="pay-om" onclick="selectPayment('om')"><div class="pay-opt-logo"><img src="om-logo.png" alt="Orange Money" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/><span class="pay-fallback pay-fallback-om">Orange Money</span></div><div class="pay-opt-name">Orange Money</div><div class="pay-opt-sub">+221 78 133 93 60</div></div>
         </div>
       </div>
       <button class="fsubmit" onclick="submitCmd()">Envoyer ma commande</button>
@@ -711,16 +1023,24 @@ tr:hover td{background:rgba(255,255,255,.02);}
   <div class="cs-item"><div class="cs-label">Adresse</div><div class="cs-val">Thiaroye Azur, Dakar</div></div>
   <div class="cs-item"><div class="cs-label">WhatsApp</div><div class="cs-val">+221 78 133 93 60</div></div>
   <div class="cs-item"><div class="cs-label">Reseaux sociaux</div><div class="cs-socials">
-    <a class="cs-social" href="https://instagram.com/kerdress" target="_blank">@kerdress -- Instagram</a>
-    <a class="cs-social" href="https://tiktok.com/@kerdress" target="_blank">@kerdress -- TikTok</a>
+    <a class="cs-social" href="https://instagram.com/kerdress" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 1.44c-3.14 0-3.51.01-4.75.07-1.15.05-1.77.24-2.19.4-.55.21-.94.47-1.35.88-.41.41-.67.8-.88 1.35-.16.42-.35 1.04-.4 2.19-.06 1.24-.07 1.61-.07 4.75s.01 3.51.07 4.75c.05 1.15.24 1.77.4 2.19.21.55.47.94.88 1.35.41.41.8.67 1.35.88.42.16 1.04.35 2.19.4 1.24.06 1.61.07 4.75.07s3.51-.01 4.75-.07c1.15-.05 1.77-.24 2.19-.4.55-.21.94-.47 1.35-.88.41-.41.67-.8.88-1.35.16-.42.35-1.04.4-2.19.06-1.24.07-1.61.07-4.75s-.01-3.51-.07-4.75c-.05-1.15-.24-1.77-.4-2.19a3.6 3.6 0 0 0-.88-1.35 3.6 3.6 0 0 0-1.35-.88c-.42-.16-1.04-.35-2.19-.4-1.24-.06-1.61-.07-4.75-.07zm0 2.45a5.95 5.95 0 1 0 0 11.9 5.95 5.95 0 0 0 0-11.9zm0 9.82a3.87 3.87 0 1 1 0-7.74 3.87 3.87 0 0 1 0 7.74zm7.58-10.06a1.39 1.39 0 1 1-2.78 0 1.39 1.39 0 0 1 2.78 0z"/></svg>@kerdress · Instagram</a>
+    <a class="cs-social" href="https://tiktok.com/@kerdress" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>@kerdress · TikTok</a>
   </div></div>
 </div>
+<section class="kd-news">
+  <div class="kd-news-title">Rejoins le <em>cercle</em> Ker Dress</div>
+  <p class="kd-news-sub">Nouvelles collections, pieces en avant-premiere et rendez-vous mode — directement chez toi.</p>
+  <div class="kd-news-form">
+    <input type="email" class="kd-news-input" id="newsEmail" placeholder="Ton adresse email"/>
+    <button class="btn-gold" onclick="subscribeNews()">S'inscrire</button>
+  </div>
+</section>
 <footer>
   <div class="ft">
     <div><div class="ft-brand">KER DRESS</div><div class="ft-tag">Mode et Elegance - Thiaroye Azur, Dakar</div></div>
     <div class="ft-links">
       <div class="ft-col"><div class="ft-col-title">Collections</div><a href="#produits">Voile et Cagoule</a><a href="#produits">Kimono</a><a href="#produits">Robes</a><a href="#produits">Ensembles</a></div>
-      <div class="ft-col"><div class="ft-col-title">Infos</div><a href="#about">Notre histoire</a><a href="#monmodele">Mon Modele</a><a href="#commande">Commander</a><a href="#avis">Avis clients</a></div>
+      <div class="ft-col"><div class="ft-col-title">Infos</div><a href="#about">Notre histoire</a><a href="#monmodele">Mon Modele</a><a href="#tontine">Tontine</a><a href="#faq">FAQ</a><a href="#commande">Commander</a><a href="#avis">Avis clients</a></div>
     </div>
   </div>
   <div class="fb"><div class="fb-copy">2025 <span>Ker Dress</span> - Thiaroye Azur, Dakar - Tous droits reserves</div></div>
@@ -739,10 +1059,8 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <div class="lightbox-price" id="lbPrice"></div>
     <div class="lightbox-desc" id="lbDesc"></div>
     <div class="lb-color-wrap">
-      <div class="lb-color-label">Modele choisi</div>
-      <input type="text" class="lb-color-input" id="lbModelInput" placeholder="Ex: Photo 1, Photo 2, le modele avec broderies..."/>
-      <div class="lb-color-label" style="margin-top:10px;">Couleur souhaitee</div>
-      <input type="text" class="lb-color-input" id="lbColorInput" placeholder="Ex: Beige, Bordeaux, Bleu nuit..."/>
+      <div class="lb-color-label">Couleur souhaitee</div>
+      <input type="text" class="lb-color-input" id="lbColorInput" placeholder="Ex: Beige, Bordeaux, Bleu nuit, Vert emeraude..."/>
     </div>
     <button class="lightbox-add" onclick="addFromLightbox()">Ajouter au panier</button>
   </div>
@@ -766,7 +1084,8 @@ tr:hover td{background:rgba(255,255,255,.02);}
   <div class="admin-login" id="adminLogin">
     <h2>Admin</h2>
     <p>Ker Dress -- Acces reserve</p>
-    <div class="admin-error" id="adminError">Mot de passe incorrect</div>
+    <div class="admin-error" id="adminError">Identifiants incorrects</div>
+    <input type="email" id="adminEmail" placeholder="Email..." onkeyup="if(event.key==='Enter')checkLogin()"/>
     <input type="password" id="adminPwd" placeholder="Mot de passe..." onkeyup="if(event.key==='Enter')checkLogin()"/>
     <button onclick="checkLogin()">Entrer</button>
   </div>
@@ -779,6 +1098,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
         <button class="atab" onclick="switchTab('products',this)">Produits</button>
         <button class="atab" onclick="switchTab('settings',this)">Parametres</button>
       </div>
+      <button class="admin-close-btn" onclick="adminLogout()">Deconnexion</button>
       <button class="admin-close-btn" onclick="closeAdmin()">Fermer</button>
     </div>
     <div class="admin-body">
@@ -847,7 +1167,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <div style="margin-bottom:14px;">
       <label style="display:block;font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(232,217,202,.4);margin-bottom:8px;">Photos (jusqu'a 5)</label>
       <div class="img-previews" id="modalImgPreviews"></div>
-      <div class="img-upload-zone" onclick="document.getElementById('modalImgInput').click();document.getElementById('modalImgInput').value='';">
+      <div class="img-upload-zone" onclick="document.getElementById('modalImgInput').click()">
         <input type="file" id="modalImgInput" accept="image/*" multiple onchange="handleModalImgs(this)"/>
         <div class="upload-icon">&#128247;</div>
         <div style="font-size:13px;font-weight:500;color:rgba(232,217,192,.6);">Cliquer pour ajouter des photos</div>
@@ -883,18 +1203,104 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <div id="cmdModalBody"></div>
     <select class="status-select" id="cmdModalStatus">
       <option value="pending">En attente</option>
-      <option value="progress">En cours de confection</option>
+      <option value="progress">En cours</option>
       <option value="done">Livre</option>
       <option value="cancelled">Annule</option>
     </select>
     <div class="cmd-modal-actions">
-      <button class="cmd-modal-save" onclick="saveOrderStatus()">Sauvegarder</button>
-      <button class="cmd-modal-wa" onclick="contactClient()">Contacter cliente</button>
+      <button class="cmd-modal-save" onclick="saveOrderStatus()">Enregistrer le statut</button>
+      <button class="cmd-modal-wa" onclick="contactClient()">&#128172; Contacter</button>
     </div>
   </div>
 </div>
 
+<!-- Floating actions -->
+<button class="kd-wa-float" onclick="waFloat()" title="Ecris-nous sur WhatsApp" aria-label="WhatsApp"><svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.22 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35zM12.04 2.5c-5.25 0-9.5 4.25-9.5 9.5 0 1.67.44 3.3 1.27 4.74L2.5 21.5l4.9-1.28a9.46 9.46 0 0 0 4.63 1.2h.01c5.24 0 9.5-4.26 9.5-9.5 0-2.54-.99-4.92-2.78-6.72a9.44 9.44 0 0 0-6.72-2.78zm0 17.18a7.87 7.87 0 0 1-4.02-1.1l-.29-.17-2.9.76.77-2.83-.19-.29a7.87 7.87 0 0 1-1.21-4.2c0-4.35 3.54-7.9 7.9-7.9 2.11 0 4.09.82 5.58 2.31a7.85 7.85 0 0 1 2.31 5.59c0 4.36-3.54 7.9-7.9 7.9z"/></svg></button>
+<button class="kd-totop" id="kdTotop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Haut de page" aria-label="Retour en haut">&#8593;</button>
+
+<!-- Toast notifications -->
+<div class="kd-toast-wrap" id="kdToastWrap"></div>
+
+<!-- Promo popup -->
+<div class="kd-popup-overlay" id="kdPopup" onclick="if(event.target===this)closePopup()">
+  <div class="kd-popup">
+    <div class="kd-popup-top">
+      <button class="kd-popup-close" onclick="closePopup()">&times;</button>
+      <div class="kd-popup-eyebrow">Bienvenue chez</div>
+      <div class="kd-popup-title">KER DRESS</div>
+    </div>
+    <div class="kd-popup-body">
+      <p>Laisse ton email et sois la premiere informee de nos nouvelles collections et pieces en edition limitee.</p>
+      <div class="kd-popup-form">
+        <input type="email" class="kd-popup-input" id="popupEmail" placeholder="Ton adresse email"/>
+        <button class="btn-gold" onclick="subscribeFromPopup()">Je m'inscris</button>
+        <button class="kd-popup-skip" onclick="closePopup()">Plus tard</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+/* ═══════════ SUPABASE — base de donnees cloud ═══════════
+   La cle "publishable" est PUBLIQUE par nature : c'est la securite
+   RLS (dans supabase-setup.sql) qui protege reellement les donnees. */
+const SUPABASE_URL='https://vremffkfdzyvttjfegjk.supabase.co';
+const SUPABASE_KEY='sb_publishable_rLnCoib4CFl0YCWRiYWsYQ_8rMS49K_';
+const CLOUD=!!(SUPABASE_URL&&SUPABASE_KEY&&window.supabase&&window.supabase.createClient);
+let sb=CLOUD?window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY):null;
+let PRODUCTS_CACHE=null,ORDERS_CACHE=null;
+
+function toRow(p){return {id:p.id,name:p.name,cat:p.cat,price:p.price,emoji:p.emoji||'',description:p.desc||'',images:p.images||[],badge:p.badge||'',visible:p.visible!==false,stock:p.stock||'dispo'};}
+function fromRow(r){return {id:r.id,name:r.name,cat:r.cat,price:Number(r.price)||0,emoji:r.emoji||'',desc:r.description||'',images:r.images||[],badge:r.badge||'',visible:r.visible!==false,stock:r.stock||'dispo'};}
+function orderRow(o){return {id:o.id,date:o.date,nom:o.nom,tel:o.tel,adresse:o.adresse,taille:o.taille||'',payment:o.payment,total:o.total||0,status:o.status||'pending',items:o.items||[],mesures:o.mesures||{},message:o.message||''};}
+
+async function cloudSyncProducts(arr,removed){try{if(removed&&removed.length)await sb.from('products').delete().in('id',removed);if(arr.length)await sb.from('products').upsert(arr.map(toRow));}catch(e){console.warn('products sync',e);toast('&#9888;','Sauvegarde echouee','Verifie ta connexion et reessaie.');}}
+async function cloudSyncOrders(arr,removed){try{if(removed&&removed.length)await sb.from('orders').delete().in('id',removed);if(arr.length)await sb.from('orders').upsert(arr.map(orderRow));}catch(e){console.warn('orders sync',e);}}
+
+function placeOrder(order){
+  if(CLOUD){
+    (async()=>{try{await sb.from('orders').insert(orderRow(order));}catch(e){console.warn('place order',e);}})();
+    try{const o=JSON.parse(localStorage.getItem('kd_orders')||'[]');o.unshift(order);localStorage.setItem('kd_orders',JSON.stringify(o));}catch(e){}
+    if(ORDERS_CACHE)ORDERS_CACHE.unshift(order);
+    return;
+  }
+  const orders=getOrders();orders.unshift(order);saveOrders(orders);
+}
+
+async function cloudLoadProducts(){
+  try{const r=await sb.from('products').select('*').order('id');if(r.error)throw r.error;PRODUCTS_CACHE=(r.data||[]).map(fromRow);
+    if(!PRODUCTS_CACHE.length){PRODUCTS_CACHE=JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));toast('&#9888;','Catalogue vide','Lance supabase-setup.sql pour charger tes produits.');}
+  }catch(e){console.warn('load products',e);PRODUCTS_CACHE=JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));toast('&#9888;','Connexion base','Produits par defaut affiches.');}
+  renderProducts();
+}
+async function cloudLoadOrders(){
+  try{const r=await sb.from('orders').select('*').order('id',{ascending:false});if(r.error)throw r.error;
+    ORDERS_CACHE=(r.data||[]).map(o=>({id:o.id,date:o.date,nom:o.nom,tel:o.tel,adresse:o.adresse,taille:o.taille||'',payment:o.payment,total:Number(o.total)||0,status:o.status||'pending',items:o.items||[],mesures:o.mesures||{},message:o.message||''}));return true;
+  }catch(e){console.warn('load orders',e);ORDERS_CACHE=ORDERS_CACHE||[];return false;}
+}
+async function cloudInit(){
+  if(!CLOUD)return;
+  await cloudLoadProducts();
+  updateBadge();renderCartDrawer();updateFormCart();updateFavBadge();renderRecent();
+}
+
+/* ── Login admin securise (Supabase Auth) ── */
+async function onAdminAuthed(){await cloudLoadOrders();showAdminDash();}
+function showAdminDash(){
+  document.getElementById('adminLogin').style.display='none';
+  document.getElementById('adminDash').style.display='block';
+  updateStats();renderOrders();renderAdminProds();
+}
+async function adminLogout(){
+  try{if(CLOUD&&sb)await sb.auth.signOut();}catch(e){}
+  ORDERS_CACHE=null;
+  document.getElementById('adminDash').style.display='none';
+  document.getElementById('adminLogin').style.display='';
+  const pe=document.getElementById('adminPwd');if(pe)pe.value='';
+  closeAdmin();
+}
+
 const DEFAULT_PRODUCTS=[
   {id:1001,name:'Voile Jersey Premium',cat:'voile',price:8000,emoji:'',desc:'Tissu jersey doux et respirant. Plusieurs coloris disponibles.',images:[],badge:'new',visible:true,stock:'dispo'},
   {id:1002,name:'Cagoule Sport Elegante',cat:'voile',price:6000,emoji:'',desc:'Cagoule pratique et stylee, ideale pour le sport ou le quotidien.',images:[],badge:'best',visible:true,stock:'dispo'},
@@ -909,76 +1315,10 @@ const DEFAULT_PRODUCTS=[
   {id:1011,name:'Pantalon Large Wax',cat:'pantalon',price:16000,emoji:'',desc:'Pantalon palazzo en wax africain. Taille haute, coupe large.',images:[],badge:'',visible:true,stock:'dispo'},
   {id:1012,name:'Pantalon Tailleur',cat:'pantalon',price:20000,emoji:'',desc:'Pantalon droit coupe tailleur. Tissu texture premium.',images:[],badge:'new',visible:true,stock:'dispo'}
 ];
-// SUPABASE CONFIG
-const SUPABASE_URL = 'https://vremffkfdzyvttjfegjk.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_rLnCoib4CFl0YCWRiYWsYQ_8rMS49K_';
-
-async function sbQuery(table, method, body, filters) {
-  filters = filters || '';
-  const url = SUPABASE_URL + '/rest/v1/' + table + filters;
-  const opts = {
-    method: method || 'GET',
-    headers: {
-      'apikey': SUPABASE_KEY,
-      'Authorization': 'Bearer ' + SUPABASE_KEY,
-      'Content-Type': 'application/json',
-      'Prefer': method === 'POST' ? 'return=representation' : 'return=minimal'
-    }
-  };
-  if (body) opts.body = JSON.stringify(body);
-  try {
-    const res = await fetch(url, opts);
-    if (!res.ok) return null;
-    if (method === 'DELETE' || method === 'PATCH') return true;
-    return res.json();
-  } catch(e) { return null; }
-}
-
-let _prodsCache = null;
-let _ordersCache = null;
-
-async function getProds() {
-  if (_prodsCache) return _prodsCache;
-  const data = await sbQuery('produits', 'GET', null, '?order=id');
-  if (data && data.length > 0) {
-    _prodsCache = data.map(p => ({...p, desc: p.description}));
-    return _prodsCache;
-  }
-  _prodsCache = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
-  for (const p of _prodsCache) {
-    await sbQuery('produits', 'POST', {
-      id: p.id, name: p.name, cat: p.cat, price: p.price,
-      description: p.desc || '', emoji: p.emoji || '',
-      badge: p.badge || '', images: p.images || [],
-      visible: true, stock: p.stock || 'dispo'
-    });
-  }
-  return _prodsCache;
-}
-
-async function saveProds(arr) {
-  _prodsCache = arr;
-  for (const p of arr) {
-    await sbQuery('produits', 'POST', {
-      id: p.id, name: p.name, cat: p.cat, price: p.price,
-      description: p.desc || p.description || '',
-      emoji: p.emoji || '', badge: p.badge || '',
-      images: p.images || [], visible: p.visible !== false,
-      stock: p.stock || 'dispo'
-    });
-  }
-}
-
-async function getOrders() {
-  if (_ordersCache) return _ordersCache;
-  const data = await sbQuery('commandes', 'GET', null, '?order=created_at.desc');
-  _ordersCache = data || [];
-  return _ordersCache;
-}
-
-async function saveOrders(arr) {
-  _ordersCache = arr;
-}const s=localStorage.getItem('kd_products');return s?JSON.parse(s):JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));}
+function getProds(){if(CLOUD)return PRODUCTS_CACHE?PRODUCTS_CACHE:[];const s=localStorage.getItem('kd_products');return s?JSON.parse(s):JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));}
+function saveProds(arr){if(CLOUD){const prev=PRODUCTS_CACHE||[];const ids=new Set(arr.map(p=>p.id));const removed=prev.filter(p=>!ids.has(p.id)).map(p=>p.id);PRODUCTS_CACHE=arr.slice();cloudSyncProducts(arr,removed);return;}localStorage.setItem('kd_products',JSON.stringify(arr));}
+function getOrders(){if(CLOUD)return ORDERS_CACHE?ORDERS_CACHE:[];return JSON.parse(localStorage.getItem('kd_orders')||'[]');}
+function saveOrders(arr){if(CLOUD){const prev=ORDERS_CACHE||[];const ids=new Set(arr.map(o=>o.id));const removed=prev.filter(o=>!ids.has(o.id)).map(o=>o.id);ORDERS_CACHE=arr.slice();cloudSyncOrders(arr,removed);return;}localStorage.setItem('kd_orders',JSON.stringify(arr));}
 function fmt(n){return Number(n).toLocaleString('fr-SN')+' FCFA';}
 function genId(){return Date.now()+Math.floor(Math.random()*1000);}
 function catLabel(c){const m={voile:'Voile & Cagoule',kimono:'Kimono',haut:'Hauts',robe:'Robes',ensemble:'Ensembles',pantalon:'Pantalons'};return m[c]||c;}
@@ -989,13 +1329,17 @@ const slides=document.querySelectorAll('.slide'),heroDotsEl=document.querySelect
 function goToSlide(n){slides[curSlide].classList.remove('active');heroDotsEl[curSlide].classList.remove('active');curSlide=n;slides[n].classList.add('active');heroDotsEl[n].classList.add('active');}
 setInterval(()=>goToSlide((curSlide+1)%slides.length),4500);
 window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('scrolled',scrollY>60));
-const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');});},{threshold:.08});
-document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+if('IntersectionObserver' in window){
+  const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');});},{threshold:.08});
+  document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+}else{
+  document.querySelectorAll('.fade-in').forEach(el=>el.classList.add('visible'));
+}
 function toggleMenu(){const l=document.querySelector('.nav-links');const show=l.style.display!=='flex';l.style.cssText=show?'display:flex;flex-direction:column;position:fixed;top:60px;left:0;right:0;background:rgba(247,240,230,.98);backdrop-filter:blur(20px);padding:18px 24px;gap:14px;border-bottom:1px solid rgba(123,74,45,.1);z-index:400;':'';}
 
 // PRODUITS
-async function renderProducts(){
-  const prods=(await getProds()).filter(p=>p.visible!==false);
+function renderProducts(){
+  const prods=getProds().filter(p=>p.visible!==false);
   const grid=document.getElementById('productsGrid');
   grid.innerHTML=prods.map(p=>{
     const isRupture=p.stock==='rupture';
@@ -1058,8 +1402,7 @@ function closeLightbox(){document.getElementById('lightboxOverlay').classList.re
 function closeLbOutside(e){if(e.target===document.getElementById('lightboxOverlay'))closeLightbox();}
 function addFromLightbox(){
   const color=document.getElementById('lbColorInput').value.trim();
-  const model=document.getElementById('lbModelInput').value.trim();
-  addToCart(lbProdId,color,model);
+  addToCart(lbProdId,color);
   closeLightbox();
 }
 
@@ -1070,15 +1413,14 @@ function cartTotal(){return cart.reduce((s,i)=>s+i.price*i.qty,0);}
 function cartCount(){return cart.reduce((s,i)=>s+i.qty,0);}
 function updateBadge(){const n=cartCount(),b=document.getElementById('cartBadge');b.textContent=n;b.classList.toggle('show',n>0);}
 
-function addToCart(id,color,model){
+function addToCart(id,color){
   const p=getProds().find(x=>x.id===id);if(!p)return;
   const colorLabel=color||'Non specifie';
-  const modelLabel=model||'Non specifie';
   // Chaque combinaison produit+couleur = article distinct
   const key=id+'_'+colorLabel;
   const ex=cart.find(i=>i.key===key);
   if(ex)ex.qty++;
-  else cart.push({key,id,name:p.name,price:p.price,emoji:p.emoji,img:null,color:colorLabel,model:modelLabel,qty:1});
+  else cart.push({key,id,name:p.name,price:p.price,emoji:p.emoji,img:(p.images&&p.images.length>0)?p.images[0]:null,color:colorLabel,qty:1});
   saveCart();updateBadge();renderCartDrawer();updateFormCart();
   const btn=document.getElementById('addbtn-'+id);
   if(btn){btn.textContent='Ajoute !';btn.classList.add('added');setTimeout(()=>{btn.textContent='+ Panier';btn.classList.remove('added');},1800);}
@@ -1131,13 +1473,13 @@ function getMesures(){
 function formatMesures(m){if(!m||!Object.keys(m).length)return'--';const labels={poitrine:'Poitrine',taille:'Taille',hanches:'Hanches',longueur:'Longueur',hauteur:'Hauteur',manche:'Manche',epaule:'Epaule',buste:'Buste'};return Object.entries(m).map(([k,v])=>`${labels[k]||k}: ${v}cm`).join(' - ');}
 
 // COMMANDE
-async function submitCmd(){
+function submitCmd(){
   const n=document.getElementById('cNom').value.trim(),t=document.getElementById('cTel').value.trim(),ta=document.getElementById('cTaille').value,a=document.getElementById('cAdresse').value.trim(),m=document.getElementById('cMsg').value.trim();
   if(!n||!t||!ta||!a){alert('Merci de remplir tous les champs obligatoires *');return;}
   if(!cart.length&&!confirm('Ton panier est vide. Continuer quand meme ?'))return;
   const mesures=getMesures();
   const order={id:genId(),date:new Date().toLocaleDateString('fr-SN'),nom:n,tel:t,taille:ta,adresse:a,message:m,mesures,payment:selectedPayment,items:cart.length?[...cart]:[{name:'Commande generale',price:0,qty:1,color:'Non specifie'}],total:cartTotal(),status:'pending'};
-  const orders=await getOrders();orders.unshift(order);_ordersCache=orders;await sbQuery('commandes','POST',{id:order.id,date:order.date,nom:order.nom,tel:order.tel,taille:order.taille||'',adresse:order.adresse||'',message:order.message||'',mesures:order.mesures||{},payment:order.payment||'',items:order.items||[],total:order.total||0,status:'pending'});
+  placeOrder(order);
   let txt=`Bonjour Ker Dress !\n\nNouvelle commande\nNom : ${n}\nTel : ${t}\nTaille : ${ta}\nAdresse : ${a}`;
   if(cart.length){
     txt+='\n\nArticles commandes :\n';
@@ -1149,7 +1491,7 @@ async function submitCmd(){
   const payL={livraison:'Paiement a la livraison',wave:'Wave',om:'Orange Money'};
   txt+=`\n\nPaiement : ${payL[selectedPayment]}`;
   if(m)txt+=`\n\nNote : ${m}`;
-  txt+='\n\nMerci ! Si vous avez une photo de reference, merci de l\'envoyer directement sur ce WhatsApp apres ce message.';
+  txt+='\n\nMerci !';
   document.getElementById('cmdOk').style.display='block';
   cart=[];saveCart();updateBadge();renderCartDrawer();updateFormCart();
   setTimeout(()=>window.open('https://wa.me/221781339360?text='+encodeURIComponent(txt),'_blank'),700);
@@ -1181,7 +1523,7 @@ function submitMonModele(){
   if(h)mesStr+=`Hanches: ${h}cm  `;
   if(ha)mesStr+=`Hauteur: ${ha}cm`;
   if(mesStr)txt+=`\n\nMesures : ${mesStr.trim()}`;
-  txt+='\n\nMerci ! Si vous avez une photo de reference, merci de l\'envoyer directement sur ce WhatsApp apres ce message.';
+  txt+='\n\nMerci !';
   document.getElementById('mmOk').style.display='block';
   window.open('https://wa.me/221781339360?text='+encodeURIComponent(txt),'_blank');
 }
@@ -1205,24 +1547,33 @@ function submitAvis(){
 const DEFAULT_PWD='kerdress2025';
 function getAdminPwd(){return localStorage.getItem('kd_pwd')||DEFAULT_PWD;}
 async function checkLogin(){
-  if(document.getElementById('adminPwd').value===getAdminPwd()){
-    document.getElementById('adminLogin').style.display='none';document.getElementById('adminDash').style.display='block';await updateStats();await renderOrders();await renderAdminProds();
-  }else{document.getElementById('adminError').style.display='block';setTimeout(()=>document.getElementById('adminError').style.display='none',2000);}
+  const err=document.getElementById('adminError');
+  if(CLOUD){
+    const email=(document.getElementById('adminEmail').value||'').trim();
+    const pwd=document.getElementById('adminPwd').value;
+    if(!email||!pwd){err.textContent='Entre ton email et ton mot de passe';err.style.display='block';return;}
+    err.style.display='none';
+    try{const {error}=await sb.auth.signInWithPassword({email,password:pwd});if(error)throw error;await onAdminAuthed();}
+    catch(e){err.textContent='Email ou mot de passe incorrect';err.style.display='block';setTimeout(()=>err.style.display='none',2500);}
+    return;
+  }
+  if(document.getElementById('adminPwd').value===getAdminPwd()){showAdminDash();}
+  else{err.style.display='block';setTimeout(()=>err.style.display='none',2000);}
 }
-function openAdmin(){document.getElementById('adminPanel').classList.add('open');document.body.style.overflow='hidden';}
-function closeAdmin(){document.getElementById('adminPanel').classList.remove('open');document.body.style.overflow='';document.getElementById('adminPwd').value='';}
+function openAdmin(){document.getElementById('adminPanel').classList.add('open');document.body.style.overflow='hidden';if(CLOUD&&sb){(async()=>{try{const {data}=await sb.auth.getSession();if(data&&data.session){await onAdminAuthed();}}catch(e){}})();}}
+function closeAdmin(){document.getElementById('adminPanel').classList.remove('open');document.body.style.overflow='';const pe=document.getElementById('adminPwd');if(pe)pe.value='';}
 function changePwd(){const v=document.getElementById('newPwd').value.trim();if(!v)return;localStorage.setItem('kd_pwd',v);document.getElementById('pwdMsg').style.display='block';document.getElementById('newPwd').value='';setTimeout(()=>document.getElementById('pwdMsg').style.display='none',2000);}
-async function switchTab(name,btn){
+function switchTab(name,btn){
   document.querySelectorAll('.atab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
   if(btn)btn.classList.add('active');
   document.getElementById('tab-'+name).classList.add('active');
-  if(name==='stats')updateStats();if(name==='orders'){_ordersCache=null;renderOrders();}if(name==='products'){_prodsCache=null;renderAdminProds();}
+  if(name==='stats')updateStats();if(name==='orders')renderOrders();if(name==='products')renderAdminProds();
   if(name==='settings'){document.getElementById('s-store-orders').textContent=getOrders().length;document.getElementById('s-store-prods').textContent=getProds().length;}
 }
 
-async function updateStats(){
-  const orders=await getOrders(),prods=await getProds();
+function updateStats(){
+  const orders=getOrders(),prods=getProds();
   const revenue=orders.reduce((s,o)=>s+(o.total||0),0);
   const pending=orders.filter(o=>o.status==='pending').length;
   document.getElementById('s-orders').textContent=orders.length;
@@ -1242,8 +1593,8 @@ async function updateStats(){
 }
 
 let orderFilter='all',orderSearch='',currentOrderId=null;
-async function renderOrders(){
-  let orders=await getOrders();
+function renderOrders(){
+  let orders=getOrders();
   if(orderFilter!=='all')orders=orders.filter(o=>o.status===orderFilter);
   if(orderSearch)orders=orders.filter(o=>(o.nom+o.tel+o.adresse+'').toLowerCase().includes(orderSearch.toLowerCase()));
   const sLabels={pending:'<span class="status-badge status-pending">En attente</span>',progress:'<span class="status-badge status-progress">En cours</span>',done:'<span class="status-badge status-done">Livre</span>',cancelled:'<span class="status-badge status-cancelled">Annule</span>'};
@@ -1262,10 +1613,10 @@ async function renderOrders(){
 }
 function filterOrders(v){orderFilter=v;renderOrders();}
 function searchOrders(v){orderSearch=v;renderOrders();}
-async function delOrder(id){if(!confirm('Supprimer cette commande ?'))return;await sbQuery('commandes','DELETE',null,'?id=eq.'+id);_ordersCache=null;renderOrders();updateStats();}
+function delOrder(id){if(!confirm('Supprimer cette commande ?'))return;saveOrders(getOrders().filter(o=>o.id!==id));renderOrders();updateStats();}
 
-async function openCmdModal(id){
-  const orders2=await getOrders();const o=orders2.find(x=>x.id===id);if(!o)return;
+function openCmdModal(id){
+  const o=getOrders().find(x=>x.id===id);if(!o)return;
   currentOrderId=id;
   document.getElementById('cmdModalTitle').textContent='Commande de '+o.nom;
   const payL={livraison:'Paiement a la livraison',wave:'Wave',om:'Orange Money'};
@@ -1283,7 +1634,7 @@ async function openCmdModal(id){
   document.getElementById('cmdModalStatus').value=o.status||'pending';
   document.getElementById('cmdModal').classList.add('open');
 }
-async function saveOrderStatus(){const status=document.getElementById('cmdModalStatus').value;await sbQuery('commandes','PATCH',{status},'?id=eq.'+currentOrderId);_ordersCache=null;document.getElementById('cmdModal').classList.remove('open');renderOrders();updateStats();}
+function saveOrderStatus(){const status=document.getElementById('cmdModalStatus').value;const orders=getOrders();const o=orders.find(x=>x.id===currentOrderId);if(o)o.status=status;saveOrders(orders);document.getElementById('cmdModal').classList.remove('open');renderOrders();updateStats();}
 function contactClient(){
   const o=getOrders().find(x=>x.id===currentOrderId);if(!o)return;
   const txt=`Bonjour ${o.nom} ! Votre commande Ker Dress est bien recue et en cours de traitement. On revient vers vous tres bientot. Merci !`;
@@ -1291,8 +1642,8 @@ function contactClient(){
 }
 
 // ADMIN PRODUITS
-async function renderAdminProds(){
-  const prods=await getProds();
+function renderAdminProds(){
+  const prods=getProds();
   document.getElementById('adminProdsGrid').innerHTML=prods.map(p=>{
     const imgSrc=p.images&&p.images.length>0?p.images[0]:null;
     const imgHtml=imgSrc?`<img src="${imgSrc}" alt="${p.name}"/>`:`<div class="admin-prod-img-emoji" style="font-size:48px;">${p.emoji}</div>`;
@@ -1321,63 +1672,29 @@ async function renderAdminProds(){
   }).join('');
 }
 
-async function toggleRupture(id,el){
+function toggleRupture(id,el){
   const prods=getProds();const p=prods.find(x=>x.id===id);if(!p)return;
   p.stock=p.stock==='rupture'?'dispo':'rupture';
-  _prodsCache=prods;await sbQuery('produits','PATCH',{stock:p.stock},'?id=eq.'+id);renderProducts();renderAdminProds();
+  saveProds(prods);renderProducts();renderAdminProds();
 }
 
-async function quickSaveProd(id,field,val){const prods=getProds();const p=prods.find(x=>x.id===id);if(!p)return;p[field]=val;_prodsCache=prods;const dbField=field==='desc'?'description':field;await sbQuery('produits','PATCH',{[dbField]:val},'?id=eq.'+id);renderProducts();}
-async function deleteProd(id){if(!confirm('Supprimer ce produit ?'))return;await sbQuery('produits','DELETE',null,'?id=eq.'+id);_prodsCache=null;renderAdminProds();renderProducts();}
+function quickSaveProd(id,field,val){const prods=getProds();const p=prods.find(x=>x.id===id);if(!p)return;p[field]=val;saveProds(prods);renderProducts();}
+function deleteProd(id){if(!confirm('Supprimer ce produit ?'))return;saveProds(getProds().filter(p=>p.id!==id));renderAdminProds();renderProducts();}
 
 let modalImgData=[];
 function openAddProdModal(){modalImgData=[];document.getElementById('mpEditId').value='';document.getElementById('modalProdTitle').textContent='Ajouter un produit';document.getElementById('mpName').value='';document.getElementById('mpPrice').value='';document.getElementById('mpDesc').value='';document.getElementById('mpEmoji').value='';document.getElementById('mpBadge').value='';document.getElementById('mpCat').value='robe';document.getElementById('mpStock').value='dispo';document.getElementById('modalImgPreviews').innerHTML='';document.getElementById('modalImgInput').value='';document.getElementById('addProdModal').classList.add('open');}
 function openEditProd(id){const p=getProds().find(x=>x.id===id);if(!p)return;modalImgData=p.images?[...p.images]:[];document.getElementById('mpEditId').value=id;document.getElementById('modalProdTitle').textContent='Modifier le produit';document.getElementById('mpName').value=p.name;document.getElementById('mpPrice').value=p.price;document.getElementById('mpDesc').value=p.desc;document.getElementById('mpEmoji').value=p.emoji||'';document.getElementById('mpBadge').value=p.badge||'';document.getElementById('mpCat').value=p.cat;document.getElementById('mpStock').value=p.stock||'dispo';renderModalPreviews();document.getElementById('addProdModal').classList.add('open');}
 function closeAddProdModal(){document.getElementById('addProdModal').classList.remove('open');modalImgData=[];}
-async function handleModalImgs(input){
-  const files=Array.from(input.files).slice(0,5-modalImgData.length);
-  if(files.length===0)return;
-  for(const file of files){
-    if(modalImgData.length>=5)return;
-    const fileName=Date.now()+'_'+file.name.replace(/\s/g,'_');
-    const res=await fetch(SUPABASE_URL+'/storage/v1/object/images/'+fileName,{
-      method:'POST',
-      headers:{
-        'apikey':SUPABASE_KEY,
-        'Authorization':'Bearer '+SUPABASE_KEY,
-        'Content-Type':file.type
-      },
-      body:file
-    });
-    if(res.ok){
-      const url=SUPABASE_URL+'/storage/v1/object/public/images/'+fileName;
-      modalImgData.push(url);
-      renderModalPreviews();
-    }
-  }
-  input.value='';
-}
-  const files=Array.from(input.files).slice(0,5-modalImgData.length);
-  if(files.length===0)return;
-  files.forEach(file=>{
-    if(modalImgData.length>=5)return;
-    const reader=new FileReader();
-    reader.onload=e=>{
-      modalImgData.push(e.target.result);
-      renderModalPreviews();
-    };
-    reader.readAsDataURL(file);
-  });
-}const files=Array.from(input.files).slice(0,5-modalImgData.length);files.forEach(file=>{if(modalImgData.length>=5)return;const reader=new FileReader();reader.onload=e=>{modalImgData.push(e.target.result);renderModalPreviews();};reader.readAsDataURL(file);});input.value='';}
+function handleModalImgs(input){const files=Array.from(input.files).slice(0,5-modalImgData.length);files.forEach(file=>{if(modalImgData.length>=5)return;const reader=new FileReader();reader.onload=e=>{modalImgData.push(e.target.result);renderModalPreviews();};reader.readAsDataURL(file);});input.value='';}
 function renderModalPreviews(){document.getElementById('modalImgPreviews').innerHTML=modalImgData.map((src,i)=>`<div class="img-preview-item"><img src="${src}" alt="photo ${i+1}"/><button class="img-preview-del" onclick="modalImgData.splice(${i},1);renderModalPreviews()">x</button></div>`).join('');}
-async function saveProd(){
+function saveProd(){
   const name=document.getElementById('mpName').value.trim(),price=Number(document.getElementById('mpPrice').value),cat=document.getElementById('mpCat').value;
   if(!name||!price||!cat){alert('Nom, prix et categorie sont obligatoires.');return;}
   const prods=getProds();const editId=document.getElementById('mpEditId').value;
   const stock=document.getElementById('mpStock').value;
   if(editId){const p=prods.find(x=>x.id===Number(editId));if(p){p.name=name;p.price=price;p.cat=cat;p.desc=document.getElementById('mpDesc').value;p.emoji=document.getElementById('mpEmoji').value||'';p.badge=document.getElementById('mpBadge').value;p.images=[...modalImgData];p.stock=stock;}}
   else{prods.push({id:genId(),name,price,cat,desc:document.getElementById('mpDesc').value,emoji:document.getElementById('mpEmoji').value||'',badge:document.getElementById('mpBadge').value,images:[...modalImgData],visible:true,stock});}
-  _prodsCache=prods;const pToSave=editId?prods.find(x=>x.id===Number(editId)):prods[prods.length-1];await sbQuery('produits','POST',{id:pToSave.id,name:pToSave.name,cat:pToSave.cat,price:pToSave.price,description:pToSave.desc||'',emoji:pToSave.emoji||'',badge:pToSave.badge||'',images:pToSave.images||[],visible:true,stock:pToSave.stock||'dispo'});renderAdminProds();renderProducts();closeAddProdModal();
+  saveProds(prods);renderAdminProds();renderProducts();closeAddProdModal();
 }
 
 function exportCSV(){
@@ -1388,10 +1705,172 @@ function exportCSV(){
   const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='kerdress_commandes.csv';a.click();URL.revokeObjectURL(url);
 }
 
-(async()=>{await renderProducts();updateBadge();renderCartDrawer();updateFormCart();})();
+/* ═══════════════ KËR DRESS · PREMIUM LAYER (JS) ═══════════════ */
+function escAttr(s){return String(s==null?'':s).replace(/"/g,'&quot;');}
+
+/* ---- Product view state (search / sort / favorites) ---- */
+let productView={cat:'tous',q:'',sort:'default',favOnly:false};
+
+function getWishlist(){try{return JSON.parse(localStorage.getItem('kd_wishlist')||'[]');}catch(e){return[];}}
+function saveWishlist(a){localStorage.setItem('kd_wishlist',JSON.stringify(a));}
+function wishlistHas(id){return getWishlist().indexOf(id)!==-1;}
+function updateFavBadge(){const b=document.getElementById('favBadge');if(!b)return;const n=getWishlist().length;b.textContent=n;b.classList.toggle('show',n>0);}
+function toggleFav(id,ev){if(ev){ev.stopPropagation();ev.preventDefault();}
+  let w=getWishlist();const p=getProds().find(x=>x.id===id);
+  if(w.indexOf(id)!==-1){w=w.filter(x=>x!==id);toast('&#9825;','Retire des favoris',p?p.name:'');}
+  else{w.push(id);toast('&#9829;','Ajoute aux favoris',p?p.name:'');}
+  saveWishlist(w);updateFavBadge();renderProducts();
+}
+function currentProductList(){
+  let list=getProds().filter(p=>p.visible!==false);
+  const v=productView;
+  if(v.cat!=='tous')list=list.filter(p=>p.cat===v.cat);
+  if(v.favOnly)list=list.filter(p=>wishlistHas(p.id));
+  if(v.q){const q=v.q.toLowerCase();list=list.filter(p=>((p.name||'')+' '+(p.desc||'')+' '+catLabel(p.cat)).toLowerCase().indexOf(q)!==-1);}
+  const s=v.sort;
+  if(s==='price-asc')list.sort((a,b)=>a.price-b.price);
+  else if(s==='price-desc')list.sort((a,b)=>b.price-a.price);
+  else if(s==='name')list.sort((a,b)=>(a.name||'').localeCompare(b.name||''));
+  else if(s==='new')list.sort((a,b)=>((b.badge==='new'?1:0)-(a.badge==='new'?1:0))||(b.id-a.id));
+  return list;
+}
+function productCardHTML(p){
+  const isRupture=p.stock==='rupture';
+  const imgs=p.images&&p.images.length>0;
+  const imgContent=imgs?`<img class="prod-real-img" src="${p.images[0]}" alt="${escAttr(p.name)}" onclick="openLightbox(${p.id})" style="cursor:pointer;"/>`:`<div class="pc-emoji-fallback" onclick="openLightbox(${p.id})" style="cursor:pointer;font-size:72px;">${p.emoji}</div>`;
+  const dots=imgs&&p.images.length>1?`<div class="pc-gallery-dots">${p.images.map((_,j)=>`<button class="gdot${j===0?' active':''}" onclick="event.stopPropagation();lbGoImg(${p.id},${j})"></button>`).join('')}</div>`:'';
+  const badge=p.badge==='new'?'<div class="pc-badge badge-new">Nouveau</div>':p.badge==='best'?'<div class="pc-badge badge-best">Bestseller</div>':'';
+  const ruptureBadge=isRupture?'<div class="pc-rupture-badge">Rupture</div>':'';
+  const fav=wishlistHas(p.id);
+  const favBtn=`<button class="pc-fav${fav?' on':''}" onclick="toggleFav(${p.id},event)" aria-label="Ajouter aux favoris">${fav?'&#9829;':'&#9825;'}</button>`;
+  const addBtnTxt=isRupture?'Indisponible':'+ Panier';
+  return `<div class="pc${isRupture?' rupture':''}" data-cat="${p.cat}" data-id="${p.id}">
+      <div class="pc-img">${imgContent}${favBtn}${badge}${ruptureBadge}${dots}</div>
+      ${!isRupture?`<button class="pc-quick" onclick="openLightbox(${p.id})">Choisir couleur et ajouter</button>`:''}
+      <div class="pc-body">
+        <div class="pc-cat">${catLabel(p.cat)}</div>
+        <div class="pc-name">${p.name}</div>
+        <div class="pc-desc">${p.desc}</div>
+        <span class="pc-chip">Sur commande</span>
+        <div class="pc-footer">
+          <div><div class="pc-price">${fmt(p.price)}</div><div class="pc-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div>
+          <button class="add-btn" id="addbtn-${p.id}" onclick="${isRupture?'':'openLightbox('+p.id+')'}" ${isRupture?'disabled':''}>${addBtnTxt}</button>
+        </div>
+      </div>
+    </div>`;
+}
+/* Override: renderProducts now honours search / sort / favorites */
+function renderProducts(){
+  const grid=document.getElementById('productsGrid');if(!grid)return;
+  if(CLOUD&&PRODUCTS_CACHE===null){grid.innerHTML='<div class="kd-empty"><div class="kd-empty-ico">&#8987;</div><p>Chargement de la boutique...</p></div>';return;}
+  const list=currentProductList();
+  if(!list.length){grid.innerHTML='<div class="kd-empty"><div class="kd-empty-ico">&#128090;</div><p>Aucune piece ne correspond a ta recherche.</p></div>';return;}
+  grid.innerHTML=list.map(productCardHTML).join('');
+}
+/* Override: filterProducts drives the shared view state */
+function filterProducts(cat,btn){
+  productView.cat=cat;
+  if(productView.favOnly){productView.favOnly=false;const fb=document.getElementById('favFilterBtn');if(fb)fb.classList.remove('on');}
+  if(btn){document.querySelectorAll('.filter-wrap .fbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+  renderProducts();
+  if(cat!=='tous'&&!btn)document.getElementById('produits').scrollIntoView({behavior:'smooth'});
+}
+function setSearch(v){productView.q=v;renderProducts();}
+function setSort(v){productView.sort=v;renderProducts();}
+function toggleFavFilter(btn){
+  productView.favOnly=!productView.favOnly;btn.classList.toggle('on',productView.favOnly);
+  renderProducts();
+}
+function showFavorites(){
+  if(!getWishlist().length){toast('&#9825;','Ta liste est vide','Touche le coeur sur une piece pour l\'ajouter.');return;}
+  productView.favOnly=true;productView.cat='tous';productView.q='';
+  const sb=document.getElementById('kdSearch');if(sb)sb.value='';
+  document.querySelectorAll('.filter-wrap .fbtn').forEach(b=>b.classList.remove('active'));
+  const first=document.querySelector('.filter-wrap .fbtn');if(first)first.classList.add('active');
+  const fb=document.getElementById('favFilterBtn');if(fb)fb.classList.add('on');
+  renderProducts();
+  document.getElementById('produits').scrollIntoView({behavior:'smooth'});
+}
+
+/* ---- Recently viewed ---- */
+function getRecent(){try{return JSON.parse(localStorage.getItem('kd_recent')||'[]');}catch(e){return[];}}
+function pushRecent(id){let r=getRecent().filter(x=>x!==id);r.unshift(id);r=r.slice(0,8);localStorage.setItem('kd_recent',JSON.stringify(r));renderRecent();}
+function renderRecent(){
+  const wrap=document.getElementById('kdRecent'),row=document.getElementById('kdRecentRow');if(!wrap||!row)return;
+  const prods=getProds();
+  const items=getRecent().map(id=>prods.find(p=>p.id===id&&p.visible!==false)).filter(Boolean);
+  if(!items.length){wrap.classList.remove('show');return;}
+  wrap.classList.add('show');
+  row.innerHTML=items.map(p=>{
+    const thumb=(p.images&&p.images.length>0)?`<img src="${p.images[0]}" alt="${escAttr(p.name)}"/>`:`<div class="em">${p.emoji||'&#128087;'}</div>`;
+    return `<div class="kd-recent-card" onclick="openLightbox(${p.id})"><div class="kd-recent-thumb">${thumb}</div><div class="kd-recent-name">${p.name}</div><div class="kd-recent-price">${fmt(p.price)}</div></div>`;
+  }).join('');
+}
+
+/* ---- Toasts ---- */
+function toast(ico,title,msg){
+  const wrap=document.getElementById('kdToastWrap');if(!wrap)return;
+  const el=document.createElement('div');el.className='kd-toast';
+  el.innerHTML='<div class="kd-toast-ico">'+ico+'</div><div class="kd-toast-txt"><b>'+title+'</b>'+(msg?'<br>'+msg:'')+'</div>';
+  wrap.appendChild(el);
+  requestAnimationFrame(()=>el.classList.add('show'));
+  setTimeout(()=>{el.classList.remove('show');setTimeout(()=>el.remove(),450);},2800);
+}
+
+/* ---- Newsletter ---- */
+function isEmail(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);}
+function saveNews(email){if(CLOUD){(async()=>{try{await sb.from('subscribers').insert({email});}catch(e){var m=(e&&(e.code||e.message))||'';if(!(String(m).includes('23505')||String(m).includes('duplicate')))console.warn('news',e);}})();return;}let a;try{a=JSON.parse(localStorage.getItem('kd_newsletter')||'[]');}catch(e){a=[];}if(a.indexOf(email)===-1){a.push(email);localStorage.setItem('kd_newsletter',JSON.stringify(a));}}
+function subscribeNews(){const i=document.getElementById('newsEmail');const v=i.value.trim();if(!isEmail(v)){toast('&#9888;','Email invalide','Verifie ton adresse email.');return;}saveNews(v);i.value='';toast('&#10003;','Inscription confirmee','Merci ! Tu recevras nos nouveautes.');}
+function subscribeFromPopup(){const i=document.getElementById('popupEmail');const v=i.value.trim();if(!isEmail(v)){toast('&#9888;','Email invalide','Verifie ton adresse email.');return;}saveNews(v);i.value='';closePopup();toast('&#10003;','Bienvenue !','Tu es inscrite a la liste Ker Dress.');}
+
+/* ---- Floating WhatsApp + popup ---- */
+function waFloat(){window.open('https://wa.me/221781339360?text='+encodeURIComponent('Bonjour Ker Dress ! J\'ai une question.'),'_blank');}function closePopup(){const p=document.getElementById('kdPopup');if(p)p.classList.remove('open');sessionStorage.setItem('kd_popup_seen','1');}
+function maybeShowPopup(){if(sessionStorage.getItem('kd_popup_seen'))return;setTimeout(()=>{if(!sessionStorage.getItem('kd_popup_seen')){const p=document.getElementById('kdPopup');if(p)p.classList.add('open');}},7000);}
+
+/* ---- Tontine ---- */
+function submitTontine(){
+  const n=document.getElementById('tName').value.trim();
+  const t=document.getElementById('tTel').value.trim();
+  const plan=document.getElementById('tPlan').value;
+  const rythme=document.getElementById('tRythme').value;
+  const msg=document.getElementById('tMsg').value.trim();
+  if(!n||!t){toast('&#9888;','Champs requis','Indique ton prenom et ton WhatsApp.');return;}
+  if(CLOUD){(async()=>{try{await sb.from('tontines').insert({nom:n,tel:t,formule:plan,rythme:rythme,message:msg});}catch(e){console.warn('tontine',e);}})();}
+  const ok=document.getElementById('tOk');if(ok)ok.style.display='block';
+  let txt='Bonjour Ker Dress !\n\nJe souhaite rejoindre la tontine.\n\n';
+  txt+='Prenom : '+n+'\nWhatsApp : '+t+'\nFormule : '+plan+'\nRythme : '+rythme;
+  if(msg)txt+='\nMessage : '+msg;
+  txt+='\n\nMerci de me recontacter !';
+  toast('&#10003;','Demande envoyee','On te contacte sur WhatsApp.');
+  setTimeout(()=>window.open('https://wa.me/221781339360?text='+encodeURIComponent(txt),'_blank'),700);
+}
+
+/* ---- Loader + scroll effects ---- */
+function initLoader(){
+  const b=document.getElementById('kdLoaderBrand');
+  if(b){const txt='KER DRESS';b.innerHTML=txt.split('').map((c,i)=>c===' '?'<span style="width:.45em;">&nbsp;</span>':'<span style="animation-delay:'+(0.15+i*0.06).toFixed(2)+'s;">'+c+'</span>').join('');}
+  const hide=function(){const l=document.getElementById('kdLoader');if(l)l.classList.add('done');};
+  window.addEventListener('load',function(){setTimeout(hide,900);});
+  setTimeout(hide,2400);
+}
+function onScrollFx(){
+  const st=window.scrollY||document.documentElement.scrollTop||0;
+  const h=(document.documentElement.scrollHeight-document.documentElement.clientHeight);
+  const pb=document.getElementById('kdProgress');if(pb)pb.style.width=(h>0?(st/h)*100:0)+'%';
+  const tt=document.getElementById('kdTotop');if(tt)tt.classList.toggle('show',st>500);
+}
+window.addEventListener('scroll',onScrollFx,{passive:true});
+
+/* ---- Wrap existing actions to add feedback (originals preserved) ---- */
+const _origAddToCart=addToCart;
+addToCart=function(id,color){_origAddToCart(id,color);const p=getProds().find(x=>x.id===id);toast('&#128722;','Ajoute au panier',p?p.name:'');};
+const _origOpenLightbox=openLightbox;
+openLightbox=function(id){pushRecent(id);_origOpenLightbox(id);};
+
+/* ---- Init ---- */
+if(CLOUD){cloudInit();}else{renderProducts();}
+updateBadge();renderCartDrawer();updateFormCart();
+updateFavBadge();renderRecent();initLoader();onScrollFx();maybeShowPopup();
 </script>
 </body>
 </html>
-HTMLEOF
-echo "Done! Size: $(wc -c < /mnt/user-data/outputs/ker-dress-v2.html) bytes"
-Sortie
